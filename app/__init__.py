@@ -12,6 +12,6 @@ def index():
 def user(name):
     return render_template('user.html',name=name)
 
-@app.route('/test')
-def test():
-    return render_template('test.html')
+@app.route('/login')
+def login():
+    return render_template('login.html')
