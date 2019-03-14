@@ -1,4 +1,4 @@
-from flask import Flask,render_template,redirect
+from flask import Flask,render_template,redirect,url_for
 # from flask_bootstrap import Bootstrap
 from .forms import LoginForm
 
@@ -18,9 +18,10 @@ def user(name):
 @app.route('/login', methods=['GET','POST'])
 def login():
     form=LoginForm(csrf_enabled=False)
-    print(form.username.data)
+    msg=f'帳號={form.username.data},密碼={form.password.data}'
+    print(msg)
     if form.validate_on_submit():
-        return redirect('/')
+        return redirect(url_for('index'))
     return render_template('login.html',form=form)
 
 @app.errorhandler(404)
