@@ -1,9 +1,9 @@
-from flask import Flask,render_template
-from flask_bootstrap import Bootstrap
+from flask import Flask,render_template,redirect
+# from flask_bootstrap import Bootstrap
 from .forms import LoginForm
 
 app = Flask(__name__)
-bootstrap=Bootstrap(app)
+# bootstrap=Bootstrap(app)
 
 
 
@@ -15,9 +15,12 @@ def index():
 def user(name):
     return render_template('user.html',name=name)
 
-@app.route('/login')
+@app.route('/login', methods=['GET','POST'])
 def login():
     form=LoginForm(csrf_enabled=False)
+    print(form.username.data)
+    if form.validate_on_submit():
+        return redirect('/')
     return render_template('login.html',form=form)
 
 @app.errorhandler(404)
