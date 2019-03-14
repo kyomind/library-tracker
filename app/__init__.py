@@ -1,5 +1,6 @@
 from flask import Flask,render_template
 from flask_bootstrap import Bootstrap
+from .forms import LoginForm
 
 app = Flask(__name__)
 bootstrap=Bootstrap(app)
@@ -16,7 +17,8 @@ def user(name):
 
 @app.route('/login')
 def login():
-    return render_template('login.html')
+    form=LoginForm(csrf_enabled=False)
+    return render_template('login.html',form=form)
 
 @app.errorhandler(404)
 def not_found(err):
