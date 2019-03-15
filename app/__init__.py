@@ -1,4 +1,4 @@
-from flask import Flask,render_template,redirect,url_for,session
+from flask import Flask,render_template,redirect,url_for,session,flash
 # from flask_bootstrap import Bootstrap
 from .forms import LoginForm
 
@@ -10,6 +10,7 @@ app.config['SECRET_KEY'] = 'hard to guess string'
 @app.route('/')
 def index():
     if session.get('name'):
+        flash('welcome back')
         return render_template('index.html',name=session.get('name'))
     return render_template('index.html')
 

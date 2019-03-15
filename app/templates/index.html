@@ -5,6 +5,11 @@
 
 
 {% block page_content %}
+
+{% for msg in get_flashed_messages() %}
+<div class="alert alert-success" role="alert">{{msg}}</div>
+{% endfor %}
+
 {% if name %}
 <h1>hello, {{name}} ,this is home</h1>
 {% else %}
