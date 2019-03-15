@@ -10,7 +10,7 @@ app.config['SECRET_KEY'] = 'hard to guess string'
 @app.route('/')
 def index():
     if session.get('name'):
-        flash('welcome back')
+        flash('welcome back, this is a FLASH messeage')
         return render_template('index.html',name=session.get('name'))
     return render_template('index.html')
 
