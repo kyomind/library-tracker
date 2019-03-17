@@ -7,7 +7,8 @@ from flask_migrate import Migrate
 app = Flask(__name__)
 # bootstrap=Bootstrap(app)
 app.config['SECRET_KEY'] = 'hard to guess string'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:tracker.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tracker.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 db=SQLAlchemy()
 migrate=Migrate()
