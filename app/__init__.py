@@ -1,11 +1,19 @@
 from flask import Flask,render_template,redirect,url_for,session,flash
 # from flask_bootstrap import Bootstrap
 from .forms import LoginForm
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
 
 app = Flask(__name__)
 # bootstrap=Bootstrap(app)
 app.config['SECRET_KEY'] = 'hard to guess string'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:tracker.db'
 
+db=SQLAlchemy()
+migrate=Migrate()
+
+db.init_app(app)
+migrate.init_app(app,db)
 
 @app.route('/')
 def index():
