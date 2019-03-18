@@ -35,8 +35,8 @@ def user(name):
 
 @app.route('/login', methods=['GET','POST'])
 def login():
-    form=LoginForm(csrf_enabled=False)
-    # form=LoginForm()
+    # form=LoginForm(csrf_enabled=False)
+    form=LoginForm()
     msg=f'帳號={form.username.data},密碼={form.password.data}'
     print(msg)
     
