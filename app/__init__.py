@@ -1,17 +1,23 @@
+import os
 from flask import Flask,render_template,redirect,url_for,session,flash
 # from flask_bootstrap import Bootstrap
 from .forms import LoginForm
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 
+basedir = os.path.abspath(os.path.dirname(__file__))
+
 app = Flask(__name__)
 # bootstrap=Bootstrap(app)
 app.config['SECRET_KEY'] = 'hard to guess string'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///tracker.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = \
+    'sqlite:///'+ os.path.join(basedir,'tracker.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 db=SQLAlchemy()
 migrate=Migrate()
+
+from app.models import User
 
 db.init_app(app)
 migrate.init_app(app,db)
