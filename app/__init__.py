@@ -33,11 +33,10 @@ def login():
     if form.validate_on_submit():
         exist_user=User.query.filter_by(username=
         form.username.data).first()
-        print(exist_user)
 
         if not exist_user:
-            new_user=User(username=form.username.data,
-            password=form.password.data)
+            new_user=User(username=form.username.data)
+            new_user.set_password(form.password.data)
 
             db.session.add(new_user)
             db.session.commit()
