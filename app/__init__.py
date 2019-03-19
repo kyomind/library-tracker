@@ -3,17 +3,20 @@ from app.forms import LoginForm
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from app.config import Config
+from flask_login import LoginManager
 
 app = Flask(__name__)
 app.config.from_object(Config)
 
 db=SQLAlchemy()
 migrate=Migrate()
+mylogin=LoginManager()
 
 from app.models import User
 
 db.init_app(app)
 migrate.init_app(app,db)
+mylogin.init_app(app)
 
 @app.route('/')
 def index():
