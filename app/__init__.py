@@ -1,18 +1,11 @@
-import os
 from flask import Flask,render_template,redirect,url_for,session,flash
-# from flask_bootstrap import Bootstrap
-from .forms import LoginForm
+from app.forms import LoginForm
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-
-basedir = os.path.abspath(os.path.dirname(__file__))
+from app.config import Config
 
 app = Flask(__name__)
-# bootstrap=Bootstrap(app)
-app.config['SECRET_KEY'] = 'hard to guess string'
-app.config['SQLALCHEMY_DATABASE_URI'] = \
-    'sqlite:///'+ os.path.join(basedir,'tracker.db')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
+app.config.from_object(Config)
 
 db=SQLAlchemy()
 migrate=Migrate()
@@ -46,11 +39,9 @@ def login():
             new_user=User(username=form.username.data,
             password=form.password.data)
 
-            print('im here')
-
             db.session.add(new_user)
             db.session.commit()
-        
+
         session['name']=form.username.data
         return redirect(url_for('index'))
     return render_template('login.html',form=form)
