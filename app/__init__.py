@@ -36,11 +36,21 @@ def user(name):
 @app.route('/login', methods=['GET','POST'])
 def login():
     form=LoginForm()
-    msg=f'帳號={form.username.data},密碼={form.password.data}'
-    print(msg)
-    
 
     if form.validate_on_submit():
+        exist_user=User.query.filter_by(username=
+        form.username.data).first()
+        print(exist_user)
+
+        if not exist_user:
+            new_user=User(username=form.username.data,
+            password=form.password.data)
+
+            print('im here')
+
+            db.session.add(new_user)
+            db.session.commit()
+        
         session['name']=form.username.data
         return redirect(url_for('index'))
     return render_template('login.html',form=form)
