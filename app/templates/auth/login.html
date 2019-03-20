@@ -1,11 +1,13 @@
 {% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
 
-{% block title %}LoginTest{% endblock %}
+
+{% block title %}LoginAuth{% endblock %}
 
 
 
 {% block page_content %}
-<h1>LoginTest</h1>
+<h1>LoginAuth</h1>
     <form action="" method="post">
             {{ form.hidden_tag() }}
         <p>
