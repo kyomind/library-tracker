@@ -18,4 +18,10 @@
 {% else %}
 <h1>hello, this is home</h1>
 {% endif %}
+
+{% if current_user.username %}
+<h1>The current user is <b>{{current_user.username}}</b></h1>
+<h1>id is {{current_user.id}}</h1>
+{% endif %}
+
 {% endblock %}
