@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 
-{% block title %}Login{% endblock %}
+{% block title %}Register{% endblock %}
 
 
 
@@ -15,7 +15,7 @@
 {% endfor %}
 
 
-<h1>Login</h1>
+<h1>註冊</h1>
     <form action="" method="post">
             {{ form.hidden_tag() }}
         <p>
@@ -27,8 +27,12 @@
             {{ form.password() }}
         </p>
         <p>
-            {{ form.remember.label }}
-            {{ form.remember() }}
+            {{ form.password2.label }}
+            {{ form.password2() }}
+        </p>
+        <p>
+            {{ form.email.label }}
+            {{ form.email() }}
         </p>
         <p>
             {{ form.submit() }}

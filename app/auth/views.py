@@ -1,10 +1,10 @@
 from flask import render_template,redirect,url_for,request,session,flash
 from . import auth
-from app.auth.forms import LoginForm 
+from app.auth.forms import LoginForm, RegisterForm
 from app.models import User
 from flask_login import login_user,login_required,logout_user
 
-
+# 登入路由
 @auth.route('/auth/login', methods=['GET','POST'])
 def login():
     form=LoginForm()
@@ -24,7 +24,7 @@ def login():
         flash('帳號名稱或密碼錯誤')
     return render_template('auth/login.html',form=form)
 
-
+# 登出路由
 @auth.route('/logout')
 @login_required
 def logout():
@@ -33,3 +33,11 @@ def logout():
     session['name']= ''
     return redirect(url_for('main.index'))
 
+# 註冊路由
+@auth.route('/auth/register', methods=['GET','POST'])
+def register():
+    form=RegisterForm()
+
+    if form.validate_on_submit():
+        pass
+    return render_template('auth/register.html',form=form)
