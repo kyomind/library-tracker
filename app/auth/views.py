@@ -16,7 +16,7 @@ def login():
         print('tag')
 
         if user is not None and user.check_password(form.password.data):
-            login_user(user, form.remember.data)
+            login_user(user, remember=form.remember.data)
             # 暫未加入導向原頁設計
 
             session['name']=form.username.data
@@ -30,5 +30,6 @@ def login():
 def logout():
     logout_user()
     flash('你已經登出了')
+    session['name']= ''
     return redirect(url_for('main.index'))
 
