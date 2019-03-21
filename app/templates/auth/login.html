@@ -8,7 +8,8 @@
 
 {% block page_content %}
 <h1>LoginAuth</h1>
-    <form action="" method="post">
+    {{ wtf.quick_form(form) }} 
+    <!-- <form action="" method="post">
             {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }}
@@ -25,5 +26,5 @@
         <p>
             {{ form.submit() }}
         </p>
-    </form>
+    </form> -->
 {% endblock %}
