@@ -3,10 +3,12 @@ from flask_sqlalchemy import SQLAlchemy
 from config import Config
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
+from flask_migrate import Migrate
 
 db=SQLAlchemy()
 bootstrap=Bootstrap()
 mylogin=LoginManager()
+migrate=Migrate()
 
 
 def create_app():
@@ -16,6 +18,7 @@ def create_app():
     db.init_app(app)
     bootstrap.init_app(app)
     mylogin.init_app(app)
+    migrate.init_app(app, db)
 
     from app.main import main as main_blueprint
     app.register_blueprint(main_blueprint)
