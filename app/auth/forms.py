@@ -16,11 +16,17 @@ class RegisterForm(FlaskForm):
     Regexp('^[A-Za-z][A-Za-z0-9]*$',flags=0,message=
     '帳號格式：大寫或小寫英文字母開頭，可包括數字，不含特殊符號'),
     Length(3,15,message='帳號長度為3至15字元')])
+   
     password= PasswordField('密碼 ',validators=[DataRequired(),
-    EqualTo('password2',message='輸入的密碼不一致')])
-    password2= PasswordField('再次確認密碼 ',validators=[DataRequired()])
+    EqualTo('password2',message='輸入的密碼不一致'),
+    Length(6,20,message='密碼長度為6至20字元')])
+    
+    password2= PasswordField('再次確認密碼 ',validators=[DataRequired(),
+    Length(6,20,message='密碼長度為6至20字元')])
+    
     email= StringField('信箱',validators=[DataRequired(),
     Email(message='信箱格式有誤')])
+    
     submit= SubmitField('註冊')
 
     def validate_username(self,field):
