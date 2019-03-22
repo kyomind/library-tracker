@@ -23,6 +23,7 @@ class User(UserMixin, db.Model):
     def check_password(self,password):
         return check_password_hash(self.password,password)
 
+# 書籍資料表
 class Book(UserMixin, db.Model):
     __tablename__='books'
     id = db.Column(db.Integer,primary_key=True, index=True)
