@@ -20,7 +20,10 @@
                 <a class="nav-link" href="{{ url_for('main.index') }}" >Home <span class="sr-only">(current)</span></a>
             </li>
             {% if current_user.is_authenticated %}
-         
+            <li class="nav-item">
+                    <!-- <a class="nav-link" href="/user/{{current_user.username}}">{{current_user.username}}</a> -->
+                    <a class="nav-link" href="{{ url_for('main.user',name=current_user.username) }}">{{current_user.username}}</a>
+                </li>
             {% else %}
             <li class="nav-item">
                 <a class="nav-link" href="{{ url_for('auth.register') }}">註冊</a>
