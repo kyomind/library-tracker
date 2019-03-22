@@ -45,6 +45,6 @@ def register():
         user.set_password(form.password.data)
         db.session.add(user)
         db.session.commit()
-        flash('註冊成功！')
+        flash('註冊成功！請登入')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html',form=form)

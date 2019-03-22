@@ -28,10 +28,12 @@ class User(UserMixin, db.Model):
 class Book(UserMixin, db.Model):
     __tablename__='books'
     id = db.Column(db.Integer,primary_key=True, index=True)
-    copy= db.Column(db.String(64))
-    barcode_id= db.Column(db.String(64))
+    book_name= db.Column(db.String(128))
+    book_id= db.Column(db.String(32))
+    copy= db.Column(db.String(32))
+    barcode_id= db.Column(db.String(32))
     location= db.Column(db.String(64))
-    call_number= db.Column(db.String(64))
+    call_number= db.Column(db.String(32))
     data_type= db.Column(db.String(64))
     status= db.Column(db.String(64))
     reservation= db.Column(db.String(64))

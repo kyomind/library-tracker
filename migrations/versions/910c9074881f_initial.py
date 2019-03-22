@@ -1,8 +1,8 @@
-"""add users, books'
+"""initial
 
-Revision ID: d41a236f67b4
+Revision ID: 910c9074881f
 Revises: 
-Create Date: 2019-03-21 16:04:31.593333
+Create Date: 2019-03-22 14:30:04.184096
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'd41a236f67b4'
+revision = '910c9074881f'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -23,16 +23,19 @@ def upgrade():
     sa.Column('username', sa.String(length=64), nullable=True),
     sa.Column('password', sa.String(length=128), nullable=True),
     sa.Column('email', sa.String(length=64), nullable=True),
+    sa.Column('join_time', sa.DateTime(), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email')
     )
     op.create_index(op.f('ix_users_username'), 'users', ['username'], unique=True)
     op.create_table('books',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('copy', sa.String(length=64), nullable=True),
-    sa.Column('barcode_id', sa.String(length=64), nullable=True),
+    sa.Column('book_name', sa.String(length=128), nullable=True),
+    sa.Column('book_id', sa.String(length=32), nullable=True),
+    sa.Column('copy', sa.String(length=32), nullable=True),
+    sa.Column('barcode_id', sa.String(length=32), nullable=True),
     sa.Column('location', sa.String(length=64), nullable=True),
-    sa.Column('call_number', sa.String(length=64), nullable=True),
+    sa.Column('call_number', sa.String(length=32), nullable=True),
     sa.Column('data_type', sa.String(length=64), nullable=True),
     sa.Column('status', sa.String(length=64), nullable=True),
     sa.Column('reservation', sa.String(length=64), nullable=True),
