@@ -53,17 +53,13 @@ def register():
 @login_required
 def change():
     form= ChangePasswordForm()
-
-    print('tag')
-#     user = User.query.filter_by(username=
-# current_user.username.data).first()
+    user = User.query.filter_by(username=
+        current_user.username).first()
 
     if form.validate_on_submit():
-        # if not current_user.check_password(form.old_password):
-        #     flash('舊密碼錯誤')
-        #     return render_template('auth/change.html',form=form)
-        user = User.query.filter_by(username=
-        current_user.username).first()
+        if not user.check_password(str(form.old_password)):
+            flash('舊密碼錯誤')
+            return render_template('auth/change.html',form=form)
 
         user.set_password(form.new_password.data)
         db.session.add(user)
