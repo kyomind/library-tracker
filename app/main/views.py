@@ -3,6 +3,8 @@ from . import main
 from .forms import LoginForm
 from app import db
 from app.models import User
+from flask_login import current_user
+from datetime import timedelta
 
 @main.route('/')
 def index():
@@ -12,7 +14,9 @@ def index():
 
 @main.route('/user/<name>')
 def user(name):
-    return render_template('user.html',name=name)
+    join_time= current_user.join_time
+    time= join_time+timedelta(hours=8)
+    return render_template('user.html',name=name,time=time)
 
 @main.route('/login', methods=['GET','POST'])
 def login():
