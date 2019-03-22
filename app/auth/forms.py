@@ -36,3 +36,18 @@ class RegisterForm(FlaskForm):
     def validate_email(self,field):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('信箱已被註冊')
+
+# 變更密碼表單
+class ChangePasswordForm(FlaskForm):
+    old_password= PasswordField('請輸入舊密碼 ',validators=[DataRequired()])
+
+    new_password= PasswordField('請輸入新密碼 ',validators=[DataRequired(),
+    EqualTo('new_password2',message='輸入的新密碼不一致'),
+    Length(6,20,message='密碼長度為6至20字元')])
+
+    new_password2= PasswordField('再次確認新密碼 ',validators=[DataRequired(),
+    Length(6,20,message='密碼長度為6至20字元')])
+
+    submit= SubmitField('變更密碼')
+
+   

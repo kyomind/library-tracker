@@ -16,6 +16,7 @@ def index():
 def user(name):
     join_time= current_user.join_time
     time= join_time+timedelta(hours=8)
+    time= time.strftime("%Y-%m-%d")
     return render_template('user.html',name=name,time=time)
 
 @main.route('/login', methods=['GET','POST'])

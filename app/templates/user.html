@@ -5,4 +5,5 @@
 {% block page_content %}
 <h1>hello, {{name}}</h1>
 <h2>加入時間：{{ time }}</h2>
+<h2><a href="{{ url_for('auth.change')}}">變更密碼</a></h2>
 {% endblock %}

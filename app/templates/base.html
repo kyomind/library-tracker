@@ -42,9 +42,22 @@
     </nav>
     {% endblock %}
     
+
+    
+
+
     {% block content %}
     <div class="container">
+
+        {% for msg in get_flashed_messages() %}
+        <div class="alert alert-success" role="alert">
+                <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{msg}}
+        </div>
+        {% endfor %}
+
         {% block page_content %}{% endblock %}
+
     </div>
     {% endblock %}
 
