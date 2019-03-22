@@ -8,7 +8,10 @@ from datetime import timedelta
 
 @main.route('/')
 def index():
-    books=['aa','bb']
+    books=[{"barcode": "0275277", "location": "敦化總館/敦化總館", 
+    "call_number": "861.57 0251", "status": "已被外借 / 2019-04-08", 
+    "reservation": "/ 0人預約", "book_name": "現在,很想見你",
+    'data_type':'一般圖書/一般'}]
     return render_template('index.html',books=books)
 
 @main.route('/user/<name>')
