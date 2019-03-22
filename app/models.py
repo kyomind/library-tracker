@@ -11,6 +11,7 @@ class User(UserMixin, db.Model):
     username=db.Column(db.String(64),unique=True ,index=True)
     password=db.Column(db.String(128))
     email=db.Column(db.String(64),unique=True)
+    join_time=db.Column(db.DateTime, default=datetime.utcnow)
 
     books = db.relationship('Book', backref='user', lazy='dynamic')
 
