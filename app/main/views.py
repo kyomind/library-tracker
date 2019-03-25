@@ -11,8 +11,7 @@ from crawler import get_book_id, get_book_data
 def index():
     if current_user.is_authenticated:
         books=Book.query.filter_by(this_user=current_user).all()
-        if len(books)== 0:
-            print('這裡')
+        if len(books) == 0:
             return render_template('index.html',books=books)
         for book in books:
             book.update_time=book.update_time+timedelta(hours=8)
@@ -40,10 +39,20 @@ def user(name):
             book_id= form.book_id.data
         print(book_id)
         print(type(book_id))
+
+        # 如果資料庫已經「至少有一本」該本書
         if Book.query.filter_by(book_id=book_id).first():
-            print(Book.query.filter_by(book_id=book_id).first())
-            flash('書籍已存在，無法新增')
-            return render_template('user.html',name=name,time=time,form=form)
+            # 調出該書的全部條目
+            all_books=Book.query.filter_by(book_id=book_id).all()
+            # 遍歷查詢每一本是否為目前使用者持有
+            for book in all_books:
+                if book.user_id==current_user.id:
+                    flash('書籍已存在，無法新增')
+                    return render_template('user.html',name=name,time=time,form=form)
+            # 好，雖然已經有該本書，但任一本都不是目前使用者持有
+            
+            
+
 
         books=get_book_data(book_id)
         print(books)
