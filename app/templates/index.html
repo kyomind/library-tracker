@@ -17,7 +17,7 @@
 <table class="table table-striped">
         <thead class="thead-dark">
           <tr>
-            <th scope="col">#</th>
+            <!-- <th scope="col">#</th> -->
             <th scope="col">書名</th>
             <th scope="col">條碼號</th>
             <th scope="col">館藏地/室</th>
@@ -31,7 +31,7 @@
         <tbody>
         {% for book in books %}
           <tr>
-            <th scope="row">1</th>
+            <!-- <th scope="row">{{ book.id }}</th> -->
             <td>{{ book.book_name }}</td>
             <td>{{ book.barcode_id }}</td>
             <td>{{ book.location }}</td>
@@ -39,7 +39,7 @@
             <td>{{ book.data_type }}</td>
             <td>{{ book.status }}</td>
             <td>{{ book.reservation }}</td>
-            <td>{{ book.update_time.strftime("%Y-%m-%d %H:%m") }}</td>
+            <td>{{ book.update_time.strftime("%Y-%m-%d %H:%M") }}</td>
           </tr>
         {% endfor %}
         </tbody>

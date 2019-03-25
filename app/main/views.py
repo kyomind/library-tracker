@@ -10,11 +10,12 @@ from crawler import get_book_id, get_book_data
 @main.route('/')
 def index():
     if current_user.is_authenticated:
-        books=Book.query.filter_by(this_user=current_user)
-        print(books,'分隔線',books[-1].update_time)
+        books=Book.query.filter_by(this_user=current_user).all()
+        if len(books)== 0:
+            print('這裡')
+            return render_template('index.html',books=books)
         for book in books:
             book.update_time=book.update_time+timedelta(hours=8)
-            # book.update_time=book.update_time.strftime("%Y-%m-%d %h:%m")
         return render_template('index.html',books=books)
     return render_template('index.html')
 
