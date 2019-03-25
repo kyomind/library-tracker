@@ -14,6 +14,7 @@ def index():
     'data_type':'一般圖書/一般'}]
     return render_template('index.html',books=books)
 
+
 @main.route('/user/<name>')
 def user(name):
     join_time= current_user.join_time

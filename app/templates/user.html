@@ -6,4 +6,26 @@
 <h1>hello, {{name}}</h1>
 <h2>加入時間：{{ time }}</h2>
 <h2><a href="{{ url_for('auth.change')}}">變更密碼</a></h2>
+<h2>新增書目</h2>
+<form action="" method="post">
+        {{ form.hidden_tag() }}
+    <p>
+        {{ form.username.label }}
+        {{ form.username() }}
+        {% for error in form.username.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    </p>
+    <p>
+        {{ form.password.label }}
+        {{ form.password() }}
+        {% for error in form.password.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+    </p>
+  
+    <p>
+        {{ form.submit() }}
+    </p>
+</form>
 {% endblock %}
