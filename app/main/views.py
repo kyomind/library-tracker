@@ -36,9 +36,13 @@ def user(name):
             book_id= form.book_id.data
         print(book_id)
         print(type(book_id))
+        if Book.query.filter_by(book_id=book_id).first():
+            print(Book.query.filter_by(book_id=book_id).first())
+            flash('書籍已存在，無法新增')
+            return render_template('user.html',name=name,time=time,form=form)
+
         books=get_book_data(book_id)
         print(books)
-
 
 
         for book in books:
