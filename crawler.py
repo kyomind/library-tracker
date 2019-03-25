@@ -8,14 +8,18 @@ def get_book_id(book_url):
     return book_id
 
 def get_book_data(book_id):
+    headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
+        'Accept-Language':'zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4'} 
+        
     url='http://hylib.ht.org.tw/bookDetail.do?id='
-    book_page = requests.get(url+book_id)
+    book_page = requests.get(url+book_id, headers=headers)
     book_page_soup = BeautifulSoup(book_page.text, 'html.parser')
     book_name=book_page_soup.find('h3').text
 
     data = {'id':book_id}
     resp = requests.post(
-    'http://hylib.ht.org.tw/maintain/HoldListForBookDetailAjax.do', data=data)
+    'http://hylib.ht.org.tw/maintain/HoldListForBookDetailAjax.do',
+    headers=headers, data=data)
     soup = BeautifulSoup(resp.text, 'html.parser')
     table=soup.find('table', 'order')
 
