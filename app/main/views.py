@@ -6,6 +6,7 @@ from app.models import User
 from flask_login import current_user
 from datetime import timedelta
 from crawler import get_book_id
+import re
 
 @main.route('/')
 def index():
@@ -31,17 +32,20 @@ def user(name):
                     flash('書目網址與書目id不一致，建議擇一輸入即可')
                     return render_template('user.html',name=name,time=time,form=form)
             except:
-                flash('網址格式錯誤，請輸入符合圖書館書目id之網址')
+                flash('請輸入符合圖書館書目id之網址')
                 return render_template('user.html',name=name,time=time,form=form)
-
-
-        print(form.book_url.data)
-        try:
-            print(get_book_id(form.book_url.data))
-        except :
-            flash('網址格式錯誤，請輸入符合圖書館書目id之網址')
-        print(form.book_id.data)
-        print(type(form.book_id.data))
+        if form.book_url.data:
+            try:
+                book_id= get_book_id(form.book_url.data)
+            except :
+                flash('請輸入符合圖書館書目id之網址')
+        if form.book_id.data:
+            book_id=form.book_id.data
+        if book_id != re.match(r'\d{,6}',book_id).group():
+            flash('請檢查網址之id格式是否有誤，id格式：1到6位正整數')
+            return render_template('user.html',name=name,time=time,form=form)
+        print(book_id)
+        print(type(book_id))
 
 
 

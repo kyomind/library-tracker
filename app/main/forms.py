@@ -16,7 +16,7 @@ class AddBookForm(FlaskForm):
 
     book_id=StringField('請輸入書目id',validators=[Optional(),
     Regexp('^[1-9][0-9]{,5}$',flags=0,message=
-    'id格式錯誤，id格式：1到6位整數')])
+    'id格式錯誤，id格式：1到6位正整數')])
 
     submit=SubmitField('新增書目')
 
