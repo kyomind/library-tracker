@@ -12,7 +12,9 @@ class LoginForm(FlaskForm):
 # 新增書目
 class AddBookForm(FlaskForm):
     book_url=StringField('請輸入書目網址',validators=[Optional(),
-    URL(message='非網址格式')])
+    URL(message='非正確網址格式'),
+    Regexp(r'http://hylib.ht.org.tw/bookDetail.do\?id=[1-9]+\d{,5}&?.*$',
+        message='網址非行天宮圖書館書目網址，或id格式有誤')])
 
     book_id=StringField('請輸入書目id',validators=[Optional(),
     Regexp('^[1-9][0-9]{,5}$',flags=0,message=
