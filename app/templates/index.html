@@ -5,14 +5,14 @@
 {% block page_content %}
 
 
-{% if current_user.username %}
+{% if current_user.is_authenticated %}
 <h1>{{current_user.username}}的個人追縱清單</h1>
 {% else %}
 <h1>請登入以使用本服務</h1>
 {% endif %}
 
 
-{% if current_user.username %}
+{% if current_user.is_authenticated %}
 
 <table class="table table-striped">
         <thead class="thead-dark">
@@ -33,26 +33,19 @@
           <tr>
             <th scope="row">1</th>
             <td>{{ book.book_name }}</td>
-            <td>{{ book.barcode }}</td>
+            <td>{{ book.barcode_id }}</td>
             <td>{{ book.location }}</td>
             <td>{{ book.call_number }}</td>
             <td>{{ book.data_type }}</td>
             <td>{{ book.status }}</td>
             <td>{{ book.reservation }}</td>
-            <td>{{ book.barcode }}</td>
+            <td>{{ book.update_time.strftime("%Y-%m-%d %H:%m") }}</td>
           </tr>
         {% endfor %}
         </tbody>
       </table>
 
-<table>
-   
-    <tr>
-    {% for book in books %}
-    <td>{{book}}</td>
-    {% endfor %}
-    </tr>
-</table>
+<br>
 
 {% endif %}
 

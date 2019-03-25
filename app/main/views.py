@@ -3,19 +3,22 @@ from . import main
 from .forms import LoginForm,AddBookForm
 from app import db
 from app.models import User,Book
-from flask_login import current_user
+from flask_login import current_user,login_required
 from datetime import timedelta
 from crawler import get_book_id, get_book_data
 
 @main.route('/')
 def index():
-    books=[{"barcode": "0275277", "location": "敦化總館/敦化總館", 
-    "call_number": "861.57 0251", "status": "已被外借 / 2019-04-08", 
-    "reservation": "/ 0人預約", "book_name": "現在,很想見你",
-    'data_type':'一般圖書/一般'}]
-    return render_template('index.html',books=books)
+    if current_user.is_authenticated:
+        books=Book.query.filter_by(this_user=current_user)
+        print(books,'分隔線',books[-1].update_time)
+        for book in books:
+            book.update_time=book.update_time+timedelta(hours=8)
+            # book.update_time=book.update_time.strftime("%Y-%m-%d %h:%m")
+        return render_template('index.html',books=books)
+    return render_template('index.html')
 
-
+@login_required
 @main.route('/user/<name>', methods=['GET','POST'])
 def user(name):
     join_time= current_user.join_time

@@ -13,7 +13,7 @@ class User(UserMixin, db.Model):
     email=db.Column(db.String(64),unique=True)
     join_time=db.Column(db.DateTime, default=datetime.utcnow)
 
-    books = db.relationship('Book', backref='user', lazy='dynamic')
+    books = db.relationship('Book', backref='this_user', lazy='dynamic')
 
     def __repr__(self):
         return f'user {self.username}'
@@ -39,6 +39,9 @@ class Book(UserMixin, db.Model):
     reservation= db.Column(db.String(64))
     update_time = db.Column(db.DateTime, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    def __repr__(self):
+        return f'[book {self.book_id} {self.book_name}]'
 
 
 
