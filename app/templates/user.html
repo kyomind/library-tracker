@@ -7,19 +7,20 @@
 <h2>加入時間：{{ time }}</h2>
 <h2><a href="{{ url_for('auth.change')}}">變更密碼</a></h2>
 <h2>新增書目</h2>
+<span style="color: rgb(125, 125, 125);">請「擇一輸入」書目網址或書目id，若同時輸入，則id必須一致 </span>
 <form action="" method="post">
         {{ form.hidden_tag() }}
     <p>
-        {{ form.username.label }}
-        {{ form.username() }}
-        {% for error in form.username.errors %}
+        {{ form.book_url.label }}
+        {{ form.book_url() }}
+        {% for error in form.book_url.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
     </p>
     <p>
-        {{ form.password.label }}
-        {{ form.password() }}
-        {% for error in form.password.errors %}
+        {{ form.book_id.label }}
+        {{ form.book_id() }}
+        {% for error in form.book_id.errors %}
     <span style="color: red;">[{{ error }}]</span>
     {% endfor %}
     </p>
