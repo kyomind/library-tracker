@@ -17,9 +17,7 @@ def login():
         if user is not None and user.check_password(form.password.data):
             # 使用login_user()將用戶維持在登入狀態
             login_user(user, remember=form.remember.data)
-            # 暫未加入導向原頁設計
-
-            session['name']=form.username.data
+            
             flash('登入成功！')
             return redirect(url_for('main.index'))
         flash('帳號名稱或密碼錯誤')

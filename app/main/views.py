@@ -13,13 +13,28 @@ def index():
         books=Book.query.filter_by(this_user=current_user).all()
         if len(books) == 0:
             return render_template('index.html',books=books)
+        
+        # 顯示追縱書籍數量，但同一本書不管有幾本館藏只能算一本
+        # 為了達到這個功能，使用了相當迂迴的做法，想不到更簡單的
+        item=0
+        numbers=[]
+        
+        # 把所有書的UTC時間改成UTC+8，同時編寫項目數字清單numbers
         for book in books:
             book.update_time=book.update_time+timedelta(hours=8)
-        return render_template('index.html',books=books)
+            
+            # 利用book.copy只有換新一本書才會回到1的特性
+            if book.copy=='1':
+                item=item+1
+            numbers.append(item)
+
+        pair_books=list(zip(numbers,books))
+
+        return render_template('index.html',books=pair_books)
     return render_template('index.html')
 
-@login_required
 @main.route('/user/<name>', methods=['GET','POST'])
+@login_required
 def user(name):
     join_time= current_user.join_time
     time= join_time+timedelta(hours=8)
@@ -43,14 +58,15 @@ def user(name):
         # 如果資料庫已經「至少有一本」該本書
         if Book.query.filter_by(book_id=book_id).first():
             # 調出該書的全部條目
-            all_books=Book.query.filter_by(book_id=book_id).all()
+            same_books=Book.query.filter_by(book_id=book_id).all()
             # 遍歷查詢每一本是否為目前使用者持有
-            for book in all_books:
+            print(same_books)
+            for book in same_books:
                 if book.user_id==current_user.id:
                     flash('書籍已存在，無法新增')
                     return render_template('user.html',name=name,time=time,form=form)
             # 好，雖然已經有該本書，但任一本都不是目前使用者持有
-            
+
             
 
 

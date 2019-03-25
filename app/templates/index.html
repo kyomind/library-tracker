@@ -17,8 +17,8 @@
 <table class="table table-striped">
         <thead class="thead-dark">
           <tr>
-            <!-- <th scope="col">#</th> -->
-            <th scope="col">書名</th>
+            <th scope="col">#</th>
+            <th scope="col">書名 (ID)</th>
             <th scope="col">條碼號</th>
             <th scope="col">館藏地/室</th>
             <th scope="col">索書號</th>
@@ -31,15 +31,19 @@
         <tbody>
         {% for book in books %}
           <tr>
-            <!-- <th scope="row">{{ book.id }}</th> -->
-            <td>{{ book.book_name }}</td>
-            <td>{{ book.barcode_id }}</td>
-            <td>{{ book.location }}</td>
-            <td>{{ book.call_number }}</td>
-            <td>{{ book.data_type }}</td>
-            <td>{{ book.status }}</td>
-            <td>{{ book.reservation }}</td>
-            <td>{{ book.update_time.strftime("%Y-%m-%d %H:%M") }}</td>
+              {% if book[1].copy=='1' %}
+            <th scope="row">{{ book[0] }}</th>
+            {% else %}
+            <th scope="row"> </th>
+            {% endif %}
+            <td>{{ book[1].book_name }} <span style="color: rgb(155, 155, 155);">{{ book[1].book_id }}</span></td>
+            <td>{{ book[1].barcode_id }}</td>
+            <td>{{ book[1].location }}</td>
+            <td>{{ book[1].call_number }}</td>
+            <td>{{ book[1].data_type }}</td>
+            <td>{{ book[1].status }}</td>
+            <td>{{ book[1].reservation }}</td>
+            <td>{{ book[1].update_time.strftime("%Y-%m-%d %H:%M") }}</td>
           </tr>
         {% endfor %}
         </tbody>
