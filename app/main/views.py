@@ -13,12 +13,6 @@ def index():
     if current_user.is_authenticated:
 
         form=DeleteForm()
-        # 刪除書目
-        if form.validate_on_submit():
-            print(form.book_id.data,'ahah')
-
-
-
         books=Book.query.filter_by(this_user=current_user).all()
         if len(books) == 0:
             return render_template('index.html',books=books)
@@ -31,14 +25,23 @@ def index():
         # 把所有書的UTC時間改成UTC+8，同時編寫項目數字清單numbers
         for book in books:
             book.update_time=book.update_time+timedelta(hours=8)
-         
-
             # 利用book.copy只有換新一本書才會回到1的特性
             if book.copy=='1':
                 item=item+1
             numbers.append(item)        
 
         pair_books=tuple(zip(numbers,books))
+
+        # 刪除書目
+        if form.validate_on_submit():
+            print(form.book_id.data,'ahah')
+            delete_books= Book.query.filter_by(book_id=form.book_id.data,
+            user_id= current_user.id).all()
+            for book in delete_books:
+                db.session.delete(book)
+                db.session.commit()
+            flash(u'書籍刪除成功','warning')
+            return redirect(url_for('main.index',books=pair_books, form=form))
 
         return render_template('index.html',books=pair_books, form=form)
 
