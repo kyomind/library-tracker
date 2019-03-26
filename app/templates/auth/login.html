@@ -9,23 +9,23 @@
 
 
 
-<h1>Login</h1>
-    <form action="" method="post">
+<h1 style="font-family: 'Roboto Slab', serif;">Login</h1>
+    <form action="" method="post" class="form-group">
             {{ form.hidden_tag() }}
-        <p>
-            {{ form.username.label }}
-            {{ form.username() }}
-        </p>
-        <p>
-            {{ form.password.label }}
-            {{ form.password() }}
-        </p>
-        <p>
+        <div class="form-group">
+            <label for="username">帳號</label>
+            <input id="username" name="username" required type="text" value="" class="form-control w-25">
+        </div>
+        <div class="form-group">
+            <label for="password">密碼 </label>
+            <input id="password" name="password" required type="password" value="" class="form-control w-25">
+        </div>
+        <div>
             {{ form.remember.label }}
             {{ form.remember() }}
-        </p>
+        </div>
         <p>
-            {{ form.submit() }}
+            <input id="submit" name="submit" type="submit" value="登入" class="btn btn-dark">
         </p>
     </form>
 {% endblock %}
