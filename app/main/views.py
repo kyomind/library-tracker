@@ -87,8 +87,7 @@ def user(name):
                 db.session.add(data)
                 db.session.commit()
             flash('書籍新增成功！')
-            form=AddBookForm()
-            return render_template('user.html',name=name,time=time,form=form)
+            return redirect(url_for('main.user',name=name,time=time,form=form))
 
 
 
@@ -109,11 +108,6 @@ def user(name):
             db.session.add(data)
             db.session.commit()
         flash('書籍新增成功！')
-        return render_template('user.html',name=name,time=time,form=form)
-
-
-
-
-
+        return redirect(url_for('main.user',name=name,time=time,form=form))
 
     return render_template('user.html',name=name,time=time,form=form)
