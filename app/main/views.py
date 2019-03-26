@@ -1,15 +1,23 @@
 from flask import Flask,render_template,redirect,url_for,session,flash
 from . import main
-from .forms import LoginForm,AddBookForm
+from .forms import LoginForm,AddForm,DeleteForm
 from app import db
 from app.models import User,Book
 from flask_login import current_user,login_required
 from datetime import timedelta
 from crawler import get_book_id, get_book_data
 
-@main.route('/')
+@main.route('/', methods=['GET','POST'])
 def index():
+
     if current_user.is_authenticated:
+
+        form=DeleteForm()
+        if form.validate_on_submit():
+            print(form.book_id.data,'ahah')
+
+
+
         books=Book.query.filter_by(this_user=current_user).all()
         if len(books) == 0:
             return render_template('index.html',books=books)
@@ -22,16 +30,22 @@ def index():
         # 把所有書的UTC時間改成UTC+8，同時編寫項目數字清單numbers
         for book in books:
             book.update_time=book.update_time+timedelta(hours=8)
-            
+         
+
             # 利用book.copy只有換新一本書才會回到1的特性
             if book.copy=='1':
                 item=item+1
-            numbers.append(item)
+            numbers.append(item)        
 
         pair_books=tuple(zip(numbers,books))
 
-        return render_template('index.html',books=pair_books)
+        return render_template('index.html',books=pair_books, form=form)
+
     return render_template('index.html')
+
+
+
+
 
 @main.route('/user/<name>', methods=['GET','POST'])
 @login_required
@@ -40,7 +54,7 @@ def user(name):
     time= join_time+timedelta(hours=8)
     time= time.strftime("%Y-%m-%d")
 
-    form=AddBookForm()
+    form=AddForm()
     book_id=''
 
     if form.validate_on_submit():
@@ -52,11 +66,8 @@ def user(name):
             book_id= get_book_id(form.book_url.data)
         if form.book_id.data:
             book_id= form.book_id.data
-        print(book_id)
-        print(type(book_id))
 
         # 同一本書對「同一使用者」不能重複加入
-
         # 如果資料庫已經「至少有一本」該本書
         if Book.query.filter_by(book_id=book_id).first():
             # 調出該書的全部條目
@@ -91,12 +102,7 @@ def user(name):
 
 
 
-
-            
-
-
         books=get_book_data(book_id)
-        print(books)
 
 
         for book in books:

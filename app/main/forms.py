@@ -10,7 +10,7 @@ class LoginForm(FlaskForm):
     submit=SubmitField('登入')
 
 # 新增書目
-class AddBookForm(FlaskForm):
+class AddForm(FlaskForm):
     book_url=StringField('請輸入書目網址',validators=[Optional(),
     URL(message='非正確網址格式'),
     Regexp(r'http://hylib.ht.org.tw/bookDetail.do\?id=[1-9]+\d{,5}&?.*$',
@@ -22,3 +22,6 @@ class AddBookForm(FlaskForm):
 
     submit=SubmitField('新增書目')
 
+class DeleteForm(FlaskForm):
+    book_id=StringField()
+    submit=SubmitField('刪除')
