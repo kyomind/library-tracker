@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}My Flask Website{% endblock %}
+{% block title %}Library Tracker{% endblock %}
+
+
 
 {% block page_content %}
-
 
 {% if current_user.is_authenticated %}
 <h1>{{current_user.username}}的個人追縱清單</h1>
@@ -31,7 +32,7 @@
         <tbody>
         {% for book in books %}
           <tr>
-              {% if book[1].copy=='1' %}
+            {% if book[1].copy=='1' %}
             <th scope="row">{{ book[0] }}</th>
             {% else %}
             <th scope="row"> </th>

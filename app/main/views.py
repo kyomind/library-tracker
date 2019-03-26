@@ -28,7 +28,7 @@ def index():
                 item=item+1
             numbers.append(item)
 
-        pair_books=list(zip(numbers,books))
+        pair_books=tuple(zip(numbers,books))
 
         return render_template('index.html',books=pair_books)
     return render_template('index.html')
@@ -55,17 +55,43 @@ def user(name):
         print(book_id)
         print(type(book_id))
 
+        # 同一本書對「同一使用者」不能重複加入
+
         # 如果資料庫已經「至少有一本」該本書
         if Book.query.filter_by(book_id=book_id).first():
             # 調出該書的全部條目
             same_books=Book.query.filter_by(book_id=book_id).all()
+            
             # 遍歷查詢每一本是否為目前使用者持有
-            print(same_books)
             for book in same_books:
                 if book.user_id==current_user.id:
                     flash('書籍已存在，無法新增')
                     return render_template('user.html',name=name,time=time,form=form)
-            # 好，雖然已經有該本書，但任一本都不是目前使用者持有
+                last_user_id=book.user_id
+            # 好，雖然資料庫已存在該本書，但都不是目前使用者持有
+            # 確定使用者可以新增該書
+
+            # 雖然流程可以繼續，直接再爬蟲一次就好了
+            # 但為了節省圖書館的資源與自我挑戰，要從資料庫複製已有的資料
+            # 難點在於，單本圖書，館藏數在二以上，怎麼把每一筆資料都複製
+            # 其次，如果擁有該書的用戶數也在二以上，只能複製單一用戶的資料！
+
+            copy_books= Book.query.filter_by(book_id=book_id, user_id=last_user_id).all()
+            for book in copy_books:
+                data = Book(book_name=book.book_name, book_id=book.book_id,
+                copy=book.copy,barcode_id=book.barcode_id,location=book.location,
+                call_number=book.call_number,data_type=book.data_type,
+                status=book.status,reservation=book.reservation,
+                user_id=current_user.id, update_time=book.update_time)
+
+                db.session.add(data)
+                db.session.commit()
+            flash('書籍新增成功！')
+            form=AddBookForm()
+            return render_template('user.html',name=name,time=time,form=form)
+
+
+
 
             
 
@@ -79,10 +105,10 @@ def user(name):
             copy=book[2],barcode_id=book[3],location=book[4],
             call_number=book[5],data_type=book[6],status=book[7],
             reservation=book[8],user_id=current_user.id)
+
             db.session.add(data)
             db.session.commit()
         flash('書籍新增成功！')
-        form=AddBookForm()
         return render_template('user.html',name=name,time=time,form=form)
 
 
