@@ -13,6 +13,7 @@ def index():
     if current_user.is_authenticated:
 
         form=DeleteForm()
+        # 刪除書目
         if form.validate_on_submit():
             print(form.book_id.data,'ahah')
 
@@ -60,7 +61,7 @@ def user(name):
     if form.validate_on_submit():
         if form.book_url.data and form.book_id.data:
             if get_book_id(form.book_url.data) != form.book_id.data:
-                flash('書目網址與書目id不一致，建議擇一輸入即可')
+                flash(u'書目網址與書目id不一致，建議擇一輸入即可','warning')
                 return render_template('user.html',name=name,time=time,form=form)
         if form.book_url.data:
             book_id= get_book_id(form.book_url.data)
@@ -76,7 +77,7 @@ def user(name):
             # 遍歷查詢每一本是否為目前使用者持有
             for book in same_books:
                 if book.user_id==current_user.id:
-                    flash('書籍已存在，無法新增')
+                    flash(u'書籍已存在，無法新增','danger')
                     return render_template('user.html',name=name,time=time,form=form)
                 last_user_id=book.user_id
             # 好，雖然資料庫已存在該本書，但都不是目前使用者持有
@@ -97,7 +98,7 @@ def user(name):
 
                 db.session.add(data)
                 db.session.commit()
-            flash('書籍新增成功！')
+            flash(u'書籍新增成功！','success')
             return redirect(url_for('main.user',name=name,time=time,form=form))
 
 
@@ -113,7 +114,7 @@ def user(name):
 
             db.session.add(data)
             db.session.commit()
-        flash('書籍新增成功！')
+        flash(u'書籍新增成功！','success')
         return redirect(url_for('main.user',name=name,time=time,form=form))
 
     return render_template('user.html',name=name,time=time,form=form)

@@ -20,7 +20,7 @@
     <tr>
       <th scope="col">#</th>
       <th scope="col">書名 (ID)</th>
-      <th scope="col">條碼號</th>
+      <!-- <th scope="col">條碼號</th> -->
       <th scope="col">館藏地/室</th>
       <th scope="col">索書號</th>
       <th scope="col">資料類型</th>
@@ -42,19 +42,19 @@
         <form action="" method="post" style='display:inline;'>
             {{ form.hidden_tag() }}
             <input id="book_id" name="book_id" type="hidden" value={{ book[1].book_id }}>
-            {{ form.submit() }}
+            <input id="submit" name="submit" type="submit" value="刪除" class="btn btn-outline-dark btn-sm">
         </form>
       
       
       
       </td>
-      <td>{{ book[1].barcode_id }}</td>
+      <!-- <td>{{ book[1].barcode_id }}</td> -->
       <td>{{ book[1].location }}</td>
       <td>{{ book[1].call_number }}</td>
       <td>{{ book[1].data_type }}</td>
       <td>{{ book[1].status }}</td>
       <td>{{ book[1].reservation }}</td>
-      <td>{{ book[1].update_time.strftime("%Y-%m-%d %H:%M") }}</td>
+      <td>{{ book[1].update_time.strftime("%m-%d %H:%M") }}</td>
     </tr>
   {% endfor %}
   </tbody>
