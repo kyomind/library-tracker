@@ -12,7 +12,7 @@ class User(UserMixin, db.Model):
     password=db.Column(db.String(128))
     email=db.Column(db.String(64),unique=True)
     join_time=db.Column(db.DateTime, default=datetime.utcnow)
-
+    # 關聯
     books = db.relationship('Book', backref='this_user', lazy='dynamic')
 
     def __repr__(self):
@@ -38,10 +38,14 @@ class Book(UserMixin, db.Model):
     status= db.Column(db.String(64))
     reservation= db.Column(db.String(64))
     update_time = db.Column(db.DateTime, default=datetime.utcnow)
+    # 外鍵
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     def __repr__(self):
         return f'[book {self.book_id} {self.book_name}]'
+
+    def update(self):
+        self.update_time=datetime.utcnow()
 
 
 

@@ -92,11 +92,7 @@ def user(name):
             # 好，雖然資料庫已存在該本書，但都不是目前使用者持有
             # 確定使用者可以新增該書
 
-            # 雖然流程可以繼續，直接再爬蟲一次就好了
-            # 但為了節省圖書館的資源與自我挑戰，要從資料庫複製已有的資料
-            # 難點在於，單本圖書，館藏數在二以上，怎麼把每一筆資料都複製
-            # 其次，如果擁有該書的用戶數也在二以上，只能複製單一用戶的資料！
-
+            # 為了節省圖書館伺服器資源，要從資料庫複製已有的資料
             copy_books= Book.query.filter_by(book_id=book_id, user_id=last_user_id).all()
             for book in copy_books:
                 data = Book(book_name=book.book_name, book_id=book.book_id,
@@ -110,7 +106,7 @@ def user(name):
             flash(u'書籍新增成功！','success')
             return redirect(url_for('main.user',name=name))
 
-
+        # 爬蟲
         books=get_book_data(book_id)
 
         for book in books:

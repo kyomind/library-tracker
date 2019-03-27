@@ -66,4 +66,14 @@ class EditEmailForm(FlaskForm):
     def validate_new_email(self,field):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('信箱已被註冊')
+
+class ResetPasswordForm(FlaskForm):
+    email=StringField('請輸入註冊帳號之信箱 ',validators=[DataRequired(),
+    Email(message='信箱格式有誤')])
+    submit= SubmitField('確認送出')
+
+    def validate_email(self,field):
+        if not User.query.filter_by(email=field.data).first():
+            raise ValidationError('信箱不存在')
+
    

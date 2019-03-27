@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+
+{% block title %}重置密碼{% endblock %}
+
+
+
+{% block page_content %}
+
+
+
+<h1 style="font-family: 'Roboto Slab', serif;">Reset Password</h1>
+<div style="color: rgb(125, 125, 125);margin-bottom: 10px">請填入註冊之信箱，系統將發送確認重置信件至該信箱 </div>
+
+    <form action="" method="post">
+            {{ form.hidden_tag() }}
+        <p>
+            {{ form.email.label }}
+            <input id="email" name="email" required type="password" value="" class="form-control custom-control-inline form-control-sm w-25">
+            {% for error in form.email.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+  
+      
+        <p>
+            <input id="submit" name="submit" type="submit" value="確認送出" class="btn btn-dark">
+        </p>
+    </form>
+{% endblock %}

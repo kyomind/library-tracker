@@ -1,6 +1,6 @@
 from flask import render_template,redirect,url_for,request,session,flash
 from . import auth
-from app.auth.forms import LoginForm, RegisterForm, ChangePasswordForm, EditEmailForm
+from app.auth.forms import LoginForm, RegisterForm, ChangePasswordForm, EditEmailForm, ResetPasswordForm
 from app.models import User
 from flask_login import login_user,login_required,logout_user,current_user
 from app import db
@@ -86,3 +86,21 @@ def edit():
         return redirect(url_for('main.user',name=current_user.username))
 
     return render_template('auth/edit.html',form=form)
+
+# 重置密碼
+@auth.route('/auth/reset', methods=['GET','POST'])
+def reset():
+    form=ResetPasswordForm()
+    if form.validate_on_submit():
+        user=User.query.filter_by(email=form.email.data).first()
+        if user:
+            flash(u'信箱已寄出，請至信箱收信','success')
+
+        else:
+            pass
+        return redirect(url_for('auth.login'))
+
+    return render_template('auth/reset.html',form=form)
+        
+        
+
