@@ -16,7 +16,7 @@
             {{ form.hidden_tag() }}
         <p>
             {{ form.email.label }}
-            <input id="email" name="email" required type="password" value="" class="form-control custom-control-inline form-control-sm w-25">
+            <input id="email" name="email" required type="text" value="" class="form-control custom-control-inline form-control-sm w-25">
             {% for error in form.email.errors %}
                 <span style="color: red;">[{{ error }}]</span>
             {% endfor %}

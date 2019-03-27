@@ -94,7 +94,7 @@ def reset():
     if form.validate_on_submit():
         user=User.query.filter_by(email=form.email.data).first()
         if user:
-            flash(u'信箱已寄出，請至信箱收信','success')
+            flash(u'信件已寄出，請至信箱確認','success')
 
         else:
             pass

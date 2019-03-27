@@ -68,7 +68,7 @@ class EditEmailForm(FlaskForm):
             raise ValidationError('信箱已被註冊')
 
 class ResetPasswordForm(FlaskForm):
-    email=StringField('請輸入註冊帳號之信箱 ',validators=[DataRequired(),
+    email=StringField('註冊信箱',validators=[DataRequired(),
     Email(message='信箱格式有誤')])
     submit= SubmitField('確認送出')
 

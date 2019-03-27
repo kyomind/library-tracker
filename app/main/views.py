@@ -5,7 +5,7 @@ from app import db
 from app.models import User,Book
 from flask_login import current_user,login_required
 from datetime import timedelta
-from crawler import get_book_id, get_book_data
+from app.crawler import get_book_id, get_book_data
 
 @main.route('/', methods=['GET','POST'])
 def index():
@@ -59,22 +59,19 @@ def user(name):
     time= time.strftime("%Y-%m-%d")
 
     form=AddBookForm()
-    book_id='no'
 
     count=Book.query.filter_by(user_id=current_user.id).group_by(Book.book_id).count()
 
     if form.validate_on_submit():
         if form.book_url.data and form.book_id.data:
-            if get_book_id(form.book_url.data) != form.book_id.data:
-                flash(u'書目網址與書目id不一致，建議擇一輸入即可','warning')
-                return redirect(url_for('main.user',name=name))
-        if form.book_url.data:
+            flash(u'請擇一輸入','danger')
+            return redirect(url_for('main.user',name=name))
+        elif form.book_url.data:
             book_id= get_book_id(form.book_url.data)
-        if form.book_id.data:
+        elif form.book_id.data:
             book_id= form.book_id.data
-
-        if book_id == 'no':
-            flash(u'請至少輸入一項資料','danger')
+        else:
+            flash(u'請擇一輸入','danger')
             return redirect(url_for('main.user',name=name))
 
         # 同一本書對「同一使用者」不能重複加入
