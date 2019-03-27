@@ -1,6 +1,6 @@
 from flask import Flask,render_template,redirect,url_for,session,flash
 from . import main
-from .forms import LoginForm,AddForm,DeleteForm
+from .forms import LoginForm,AddBookForm,DeleteBookForm
 from app import db
 from app.models import User,Book
 from flask_login import current_user,login_required
@@ -12,7 +12,7 @@ def index():
 
     if current_user.is_authenticated:
 
-        form=DeleteForm()
+        form=DeleteBookForm()
         books=Book.query.filter_by(this_user=current_user).all()
         if len(books) == 0:
             return render_template('index.html',books=books)
@@ -58,8 +58,10 @@ def user(name):
     time= join_time+timedelta(hours=8)
     time= time.strftime("%Y-%m-%d")
 
-    form=AddForm()
+    form=AddBookForm()
     book_id=''
+
+    count=Book.query.filter_by(user_id=current_user.id).group_by(Book.book_id).count()
 
     if form.validate_on_submit():
         if form.book_url.data and form.book_id.data:
@@ -102,7 +104,7 @@ def user(name):
                 db.session.add(data)
                 db.session.commit()
             flash(u'書籍新增成功！','success')
-            return redirect(url_for('main.user',name=name,time=time,form=form))
+            return redirect(url_for('main.user',name=name,time=time,form=form,count=count))
 
 
 
@@ -118,6 +120,6 @@ def user(name):
             db.session.add(data)
             db.session.commit()
         flash(u'書籍新增成功！','success')
-        return redirect(url_for('main.user',name=name,time=time,form=form))
+        return redirect(url_for('main.user',name=name,time=time,form=form,count=count))
 
-    return render_template('user.html',name=name,time=time,form=form)
+    return render_template('user.html',name=name,time=time,form=form,count=count)
