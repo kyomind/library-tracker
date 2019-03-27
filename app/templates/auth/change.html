@@ -9,33 +9,33 @@
 
 
 
-<h1>變更密碼</h1>
+<h1 style="font-family: 'Roboto Slab', serif;">Change Password</h1>
     <form action="" method="post">
             {{ form.hidden_tag() }}
         <p>
             {{ form.old_password.label }}
-            {{ form.old_password() }}
+            <input id="old_password" name="old_password" required type="password" value="" class="form-control custom-control-inline form-control-sm w-25">
             {% for error in form.old_password.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
         </p>
         <p>
             {{ form.new_password.label }}
-            {{ form.new_password() }}
+            <input id="new_password" name="new_password" required type="password" value="" class="form-control custom-control-inline form-control-sm w-25">
             {% for error in form.new_password.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
         </p>
         <p>
             {{ form.new_password2.label }}
-            {{ form.new_password2() }}
+            <input id="new_password2" name="new_password2" required type="password" value="" class="form-control custom-control-inline form-control-sm w-25">
             {% for error in form.new_password2.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
         </p>
       
         <p>
-            {{ form.submit() }}
+            <input id="submit" name="submit" type="submit" value="變更密碼" class="btn btn-dark">
         </p>
     </form>
 {% endblock %}

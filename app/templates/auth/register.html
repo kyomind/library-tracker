@@ -15,34 +15,34 @@
             {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }}
-            {{ form.username() }}
+            <input id="username" name="username" required type="text" value="" class="form-control custom-control-inline form-control-sm w-25">
             {% for error in form.username.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
         </p>
         <p>
             {{ form.password.label }}
-            {{ form.password() }}
+            <input id="password" name="password" required type="password" value="" class="form-control custom-control-inline form-control-sm w-25">
             {% for error in form.password.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
         </p>
         <p>
             {{ form.password2.label }}
-            {{ form.password2() }}
+            <input id="password2" name="password2" required type="password" value="" class="form-control custom-control-inline form-control-sm w-25">
             {% for error in form.password2.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
         </p>
         <p>
             {{ form.email.label }}
-            {{ form.email() }}
+            <input id="email" name="email" required type="text" value="" class="form-control custom-control-inline form-control-sm w-25">
             {% for error in form.email.errors %}
-        <span style="color: red;">[{{ error }}]</span>
-        {% endfor %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
         </p>
         <p>
-            {{ form.submit() }}
+            <input id="submit" name="submit" type="submit" value="註冊" class="btn btn-dark">
         </p>
     </form>
 {% endblock %}
