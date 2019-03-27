@@ -4,43 +4,39 @@
 
 {% block page_content %}
 
-<div class="card" style="width: 20rem;margin-top: 10px">
+<div class="card" style="width: 20rem;margin:10px 0px 10px 0px">
     <img src="{{ url_for('static', filename='flower.jpg') }}" class="card-img-top" alt="...">
     <div class="card-body">
        
             <h6 style="font-family: 'Roboto Slab', serif;">加入時間：{{ time }}</h5>
             <h6 style="font-family: 'Roboto Slab', serif;">目前共收藏 {{count}} 本書</h5>
-        <!-- </p> -->
         <a href="{{ url_for('auth.change')}}" class="card-link">變更密碼</a>
         <a href="{{ url_for('auth.edit')}}" class="card-link">修改信箱</a>
     </div>
 </div>
 
 
-
-
-
-<h2>新增書目</h2>
-<span style="color: rgb(125, 125, 125);">請「擇一輸入」書目網址或書目id，若同時輸入，則id必須一致 </span>
+<h3 style="font-family: 'Roboto Slab', serif;margin-bottom: 0px">Add Book</h3>
+<div style="color: rgb(125, 125, 125);margin-bottom: 10px">請「擇一輸入」書目網址或書目id，若同時輸入，則id必須一致 </div>
 <form action="" method="post">
         {{ form.hidden_tag() }}
     <p>
         {{ form.book_url.label }}
-        {{ form.book_url() }}
+        <input id="book_url" name="book_url" type="text" value="" class="form-control custom-control-inline form-control-sm w-50">
         {% for error in form.book_url.errors %}
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
     </p>
     <p>
         {{ form.book_id.label }}
-        {{ form.book_id() }}
+        <input id="book_id" name="book_id" type="text" value="" class="form-control custom-control-inline form-control-sm w-25">
         {% for error in form.book_id.errors %}
-    <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
+            <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
     </p>
   
     <p>
-        {{ form.submit() }}
+        <input id="submit" name="submit" type="submit" value="新增書目" class="btn btn-dark">
     </p>
 </form>
 {% endblock %}

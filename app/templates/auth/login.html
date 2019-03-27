@@ -20,11 +20,12 @@
             {{ form.password.label }}
             <input id="password" name="password" required type="password" value="" class="form-control w-25">
         </div>
-        <div>
-            {{ form.remember.label }}
-            {{ form.remember() }}
+        <div class="custom-control custom-switch">
+            <input id="remember" type="checkbox" value="y" class="custom-control-input">
+            <label for="remember" class="custom-control-label">記住我</label>
         </div>
-        <p>
+
+        <p style="margin-top:12pt">
             <input id="submit" name="submit" type="submit" value="登入" class="btn btn-dark">
         </p>
     </form>

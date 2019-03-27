@@ -42,9 +42,7 @@ def index():
                 db.session.commit()
             flash(u'書籍刪除成功','warning')
             return redirect(url_for('main.index'))
-
         
-
         return render_template('index.html',books=numbered_books, form=form)
 
     return render_template('index.html')
@@ -61,7 +59,7 @@ def user(name):
     time= time.strftime("%Y-%m-%d")
 
     form=AddBookForm()
-    book_id=''
+    book_id='no'
 
     count=Book.query.filter_by(user_id=current_user.id).group_by(Book.book_id).count()
 
@@ -69,11 +67,15 @@ def user(name):
         if form.book_url.data and form.book_id.data:
             if get_book_id(form.book_url.data) != form.book_id.data:
                 flash(u'書目網址與書目id不一致，建議擇一輸入即可','warning')
-                return render_template('user.html',name=name,time=time,form=form)
+                return redirect(url_for('main.user',name=name))
         if form.book_url.data:
             book_id= get_book_id(form.book_url.data)
         if form.book_id.data:
             book_id= form.book_id.data
+
+        if book_id == 'no':
+            flash(u'請至少輸入一項資料','danger')
+            return redirect(url_for('main.user',name=name))
 
         # 同一本書對「同一使用者」不能重複加入
         # 如果資料庫已經「至少有一本」該本書
@@ -85,7 +87,7 @@ def user(name):
             for book in same_books:
                 if book.user_id==current_user.id:
                     flash(u'書籍已存在，無法新增','danger')
-                    return render_template('user.html',name=name,time=time,form=form)
+                    return redirect(url_for('main.user',name=name))
                 last_user_id=book.user_id
             # 好，雖然資料庫已存在該本書，但都不是目前使用者持有
             # 確定使用者可以新增該書
@@ -109,9 +111,7 @@ def user(name):
             return redirect(url_for('main.user',name=name))
 
 
-
         books=get_book_data(book_id)
-
 
         for book in books:
             data = Book(book_name=book[0], book_id=book[1],
