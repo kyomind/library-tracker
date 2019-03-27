@@ -24,4 +24,4 @@ class AddBookForm(FlaskForm):
 
 class DeleteBookForm(FlaskForm):
     book_id=StringField()
-    submit=SubmitField('刪除')
+    submit=SubmitField()
