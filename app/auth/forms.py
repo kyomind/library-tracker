@@ -50,4 +50,20 @@ class ChangePasswordForm(FlaskForm):
 
     submit= SubmitField('變更密碼')
 
+# 修改信箱表單
+class EditEmailForm(FlaskForm):
+    password= PasswordField('請輸入密碼以進行操作 ',validators=[DataRequired()])
+
+    new_email= StringField('請輸入新信箱 ',validators=[DataRequired(),
+    EqualTo('new_email2',message='輸入的新信箱不一致'),
+    Email(message='信箱格式有誤')])
+
+    new_email2= StringField('再次確認新信箱 ',validators=[DataRequired(),
+    Email(message='信箱格式有誤')])
+
+    submit= SubmitField('修改信箱')
+
+    def validate_new_email(self,field):
+        if User.query.filter_by(email=field.data).first():
+            raise ValidationError('信箱已被註冊')
    

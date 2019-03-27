@@ -1,6 +1,6 @@
 from flask import render_template,redirect,url_for,request,session,flash
 from . import auth
-from app.auth.forms import LoginForm, RegisterForm, ChangePasswordForm
+from app.auth.forms import LoginForm, RegisterForm, ChangePasswordForm, EditEmailForm
 from app.models import User
 from flask_login import login_user,login_required,logout_user,current_user
 from app import db
@@ -55,7 +55,7 @@ def change():
         current_user.username).first()
 
     if form.validate_on_submit():
-        if not user.check_password(str(form.old_password)):
+        if not user.check_password(str(form.old_password.data)):
             flash(u'舊密碼錯誤','danger')
             return render_template('auth/change.html',form=form)
 
@@ -66,3 +66,23 @@ def change():
         return redirect(url_for('main.user',name=current_user.username))
     return render_template('auth/change.html',form=form)
 
+# 修改信箱
+@auth.route('/auth/edit', methods=['GET','POST'])
+@login_required
+def edit():
+    form= EditEmailForm()
+    user = User.query.filter_by(username=
+        current_user.username).first()
+
+    if form.validate_on_submit():
+        if not user.check_password(str(form.password.data)):
+            flash(u'密碼錯誤','danger')
+            return render_template('auth/edit.html',form=form)
+
+        user.email=form.new_email.data
+        db.session.add(user)
+        db.session.commit()
+        flash(u'修改信箱成功','success')
+        return redirect(url_for('main.user',name=current_user.username))
+
+    return render_template('auth/edit.html',form=form)
