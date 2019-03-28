@@ -4,7 +4,6 @@ from app.auth.forms import LoginForm, RegisterForm, ChangePasswordForm, EditEmai
 from app.models import User
 from flask_login import login_user,login_required,logout_user,current_user
 from app import db
-from app.email import send_email
 
 # 登入路由
 @auth.route('/auth/login', methods=['GET','POST'])
@@ -95,9 +94,8 @@ def reset():
     if form.validate_on_submit():
         user=User.query.filter_by(email=form.email.data).first()
         if user:
-            send_email('重置密碼確認信', form.email.data,
-            'haha','<h1>haha<h1>')
             flash(u'信件已寄出，請至信箱確認','success')
+
         else:
             pass
         return redirect(url_for('auth.login'))
