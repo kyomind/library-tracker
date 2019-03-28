@@ -7,6 +7,7 @@ from flask_login import current_user,login_required
 from datetime import timedelta
 from app.crawler import get_book_id, get_book_data
 
+# 首頁，追縱清單
 @main.route('/', methods=['GET','POST'])
 def index():
 
@@ -48,9 +49,7 @@ def index():
     return render_template('index.html')
 
 
-
-
-
+# 個人頁，新增書目
 @main.route('/user/<name>', methods=['GET','POST'])
 @login_required
 def user(name):

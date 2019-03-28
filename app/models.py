@@ -3,6 +3,9 @@ from datetime import datetime
 from werkzeug.security import generate_password_hash,check_password_hash
 from flask_login import UserMixin
 from app import mylogin
+import jwt
+from flask import current_app
+import time
 
 # 使用者資料表
 class User(UserMixin, db.Model):
@@ -23,6 +26,24 @@ class User(UserMixin, db.Model):
 
     def check_password(self,password):
         return check_password_hash(self.password,password)
+
+    def get_jwt(self,expire):
+        token=jwt.encode(
+            {'email':self.email,'exp':time.time()+expire},
+            current_app.config['SECRET_KEY'],
+            algorithm='HS256'
+        )
+        return token
+
+    def verify_jwt(self, token):
+        try:
+            answer_dict=jwt.decode(token,current_app.config['SECRET_KEY'],
+            algorithm='HS256')
+            email=answer_dict['email']
+        except:
+            return
+        user = User.query.filter_by(email=email).first()
+        return user
 
 # 書籍資料表
 class Book(UserMixin, db.Model):

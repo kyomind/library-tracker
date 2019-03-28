@@ -67,7 +67,7 @@ class EditEmailForm(FlaskForm):
         if User.query.filter_by(email=field.data).first():
             raise ValidationError('信箱已被註冊')
 
-class ResetPasswordForm(FlaskForm):
+class RequestResetForm(FlaskForm):
     email=StringField('註冊信箱',validators=[DataRequired(),
     Email(message='信箱格式有誤')])
     submit= SubmitField('確認送出')
@@ -76,4 +76,13 @@ class ResetPasswordForm(FlaskForm):
         if not User.query.filter_by(email=field.data).first():
             raise ValidationError('信箱不存在')
 
+class ResetPasswordForm(FlaskForm):
+    new_password= PasswordField('請輸入新密碼 ',validators=[DataRequired(),
+    EqualTo('new_password2',message='輸入的新密碼不一致'),
+    Length(6,20,message='密碼長度為6至20字元')])
+
+    new_password2= PasswordField('再次確認新密碼 ',validators=[DataRequired(),
+    Length(6,20,message='密碼長度為6至20字元')])
+
+    submit= SubmitField('重置密碼')
    
