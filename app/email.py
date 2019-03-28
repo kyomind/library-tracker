@@ -10,8 +10,8 @@ def send_async_email(app, msg):
 def send_email(subject, recipients, text_body, html_body):
     msg = Message(
         subject=subject,
-        recipients=recipients,
-        reply_to='odinxp@gmail.com'
+        recipients=[recipients],
+        sender='odinxp@gmail.com'
     )
     msg.body = text_body
     msg.html = html_body
