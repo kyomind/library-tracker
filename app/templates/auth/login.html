@@ -21,7 +21,7 @@
             <input id="password" name="password" required type="password" value="" class="form-control w-25">
         </div>
         <div class="custom-control custom-switch">
-            <input id="remember" type="checkbox" value="y" class="custom-control-input">
+            <input id="remember" name="remember" type="checkbox" value="y" class="custom-control-input">
             <label for="remember" class="custom-control-label">記住我</label>
         </div>
 
@@ -31,5 +31,6 @@
         <p>
             <a href="{{url_for('auth.send')}}" class="card-link">重置密碼</a>
         </p>
+      
     </form>
 {% endblock %}

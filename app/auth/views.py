@@ -7,6 +7,7 @@ from flask_login import login_user,login_required,logout_user,current_user
 from app import db
 from app.email import send_email
 
+
 # 登入
 @auth.route('/auth/login', methods=['GET','POST'])
 def login():
@@ -28,6 +29,7 @@ def login():
         flash(u'帳號名稱或密碼錯誤','danger')
     return render_template('auth/login.html',form=form)
 
+
 # 登出
 @auth.route('/logout')
 @login_required
@@ -37,12 +39,13 @@ def logout():
     session['name']= ''
     return redirect(url_for('main.index'))
 
+
 # 註冊
 @auth.route('/auth/register', methods=['GET','POST'])
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
-        
+
     form=RegisterForm()
 
     if form.validate_on_submit():
@@ -53,6 +56,7 @@ def register():
         flash(u'註冊成功！請登入','success')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html',form=form)
+
 
 # 變更密碼
 @auth.route('/auth/change', methods=['GET','POST'])
@@ -74,6 +78,7 @@ def change():
         return redirect(url_for('main.user',name=current_user.username))
     return render_template('auth/change.html',form=form)
 
+
 # 修改信箱
 @auth.route('/auth/edit', methods=['GET','POST'])
 @login_required
@@ -88,12 +93,14 @@ def edit():
             return render_template('auth/edit.html',form=form)
 
         user.email=form.new_email.data
+        user.confirmed=False
         db.session.add(user)
         db.session.commit()
-        flash(u'修改信箱成功','success')
+        flash(u'修改信箱成功，請重新驗證','success')
         return redirect(url_for('main.user',name=current_user.username))
 
     return render_template('auth/edit.html',form=form)
+
 
 # 重置密碼「請求」頁面
 @auth.route('/auth/send', methods=['GET','POST'])
@@ -104,7 +111,7 @@ def send():
         if user:
             token=user.get_jwt(600)
             url=url_for('auth.reset',_external=True,token=token)
-            send_email('重置密碼確認信', user.email, 'mail/link',
+            send_email('重置密碼確認信', user.email, 'mail/reset',
             name=user.username, url=url)
             flash(u'信件已寄出，請至信箱確認','success')
         else:
@@ -113,8 +120,9 @@ def send():
 
     return render_template('auth/send.html',form=form)
 
+
 # 重置密碼(with token)頁面
-@auth.route('/auth/token/<token>', methods=['GET','POST'])
+@auth.route('/auth/reset/<token>', methods=['GET','POST'])
 def reset(token):
     if current_user.is_authenticated:
         flash(u'已登入用戶請直接使用「修改密碼」','warning')
@@ -138,6 +146,29 @@ def reset(token):
     return render_template('auth/reset.html', form=form, token=token)
 
 
+# 驗證信箱
+@auth.route('/auth/confirm', methods=['GET','POST'])
+@login_required
+def confirm():
+    token=current_user.get_jwt(600)
+    url=url_for('auth.confirmed',_external=True,token=token)
+    send_email('信箱驗證', current_user.email, 'mail/confirm',
+    name=current_user.username, url=url)
+    return render_template('auth/confirm.html', email=current_user.email)
+
+
+# 驗證網址
+@auth.route('/auth/confirm/<token>', methods=['GET','POST'])
+def confirmed(token):
+    user= User.verify_jwt(token)
+    if not user:
+        flash(u'憑證錯誤或逾期，請重新點選驗證功能','danger')
+        return redirect(url_for('main.user',name=user.username))
+    user.confirmed=True
+    db.session.add(user)
+    db.session.commit()
+    flash(u'已完成信箱驗證','success')
+    return redirect(url_for('main.user',name=user.username))
 
    
         

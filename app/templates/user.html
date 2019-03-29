@@ -4,21 +4,24 @@
 
 {% block page_content %}
 
-<div class="card" style="width: 20rem;margin:10px 0px 10px 0px">
+<div class="card" style="width: 24rem;margin:10px 0px 10px 0px">
     <img src="{{ url_for('static', filename='flower.jpg') }}" class="card-img-top" alt="...">
     <div class="card-body">
        
-            <h6 style="font-family: 'Roboto Slab', serif;">加入時間：{{ time }}</h5>
-            <h6 style="font-family: 'Roboto Slab', serif;">信箱：{{ current_user.email }}</h5>
-            <h6 style="font-family: 'Roboto Slab', serif;">目前共收藏 {{count}} 本書</h5>
-        <!-- <a href="{{ url_for('auth.change')}}" class="card-link">變更密碼</a> -->
-        <!-- <a href="{{ url_for('auth.edit')}}" class="card-link">修改信箱</a> -->
+            <h6 style="font-family: 'Roboto Slab', serif;">加入時間：{{ time }}</h6>
+            <h6 style="font-family: 'Roboto Slab', serif;">信箱：{{ current_user.email }}
+                {% if current_user.confirmed %}
+                <span class="badge badge-success" style="font-size: 10pt;margin-left: 3pt">已驗證</span></h6>
+                {% else %}
+                <span class="badge badge-secondary" style="font-size: 10pt;margin-left: 3pt">未驗證</span></h6>
+                {% endif %}
+            <h6 style="font-family: 'Roboto Slab', serif;">目前共收藏 {{count}} 本書</h6>
     </div>
 </div>
 
 
 <h3 style="font-family: 'Roboto Slab', serif;margin-bottom: 0px">Add Books</h3>
-<div style="color: rgb(125, 125, 125);margin-bottom: 10px">請「擇一輸入」書目網址或書目id </div>
+<div style="color: rgb(155, 155, 155);margin-bottom: 10px">請「擇一輸入」書目網址或書目id </div>
 <form action="" method="post">
         {{ form.hidden_tag() }}
     <p>
