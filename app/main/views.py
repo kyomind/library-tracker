@@ -45,7 +45,8 @@ def index():
             return redirect(url_for('main.index'))
         
         return render_template('index.html',books=numbered_books, form=form)
-
+        
+    flash(u'請登入以使用本服務','warning')
     return render_template('index.html')
 
 
