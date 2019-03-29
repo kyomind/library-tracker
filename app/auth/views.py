@@ -98,8 +98,8 @@ def reset():
         if user:
             token=user.get_jwt(600)
             url=url_for('auth.token',_external=True,token=token)
-            send_email('重置密碼確認信', user.email, url,
-            f"<h1>{url}<h1>")
+            send_email('重置密碼確認信', user.email, 'mail/link',
+            name=user.username, url=url)
             flash(u'信件已寄出，請至信箱確認','success')
         else:
             pass
