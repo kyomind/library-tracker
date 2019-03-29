@@ -42,7 +42,7 @@ class User(UserMixin, db.Model):
             algorithm='HS256')
         except:
             return
-        if answer_dict['expire'] > time.time():
+        if answer_dict['expire'] < time.time():
             return
         email=answer_dict['email']
         user = User.query.filter_by(email=email).first()

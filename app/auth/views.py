@@ -108,7 +108,7 @@ def send():
     return render_template('auth/send.html',form=form)
 
 # 重置密碼(with token)頁面
-@auth.route('/auth/reset/<token>', methods=['GET','POST'])
+@auth.route('/auth/token/<token>', methods=['GET','POST'])
 def reset(token):
     if current_user.is_authenticated:
         flash(u'已登入用戶請直接使用「修改密碼」','warning')
