@@ -58,13 +58,11 @@
         {% if book[1].copy=='1' %}
         <form action="" method="post" style='display:inline;'>
             {{ form.hidden_tag() }}
-            <input id="book_id" name="book_id" type="hidden" value={{ book[1].book_id }}>
+            <input id="book_id" name="book_id" type="hidden" value="{{ book[1].book_id }}">
             <input id="submit" name="submit" type="submit" value="刪除" class="btn btn-outline-dark btn-sm"
             onclick="javascript:return del()">
         </form>
         {% endif %}
-      
-      
       
       </td>
       <td>{{ book[1].barcode_id }}</td>
