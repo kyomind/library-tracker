@@ -10,6 +10,9 @@ from app.email import send_email
 # 登入
 @auth.route('/auth/login', methods=['GET','POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+    
     form=LoginForm()
 
     if form.validate_on_submit():
