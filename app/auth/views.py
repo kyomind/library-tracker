@@ -108,9 +108,21 @@ def reset():
     return render_template('auth/reset.html',form=form)
 
 # 重置密碼token頁面
-@auth.route('/auth/<token>', methods=['GET','POST'])
+@auth.route('/auth/token/<token>', methods=['GET','POST'])
 def token(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('main.index'))
+    
+    if not 64<len(token)<256:
+        return render_template('404.html'),404
+
+
+
     form=ResetPasswordForm()
+    if form.validate_on_submit():
+        pass
+
+
     return render_template('auth/token.html', form=form, token=token)
 
 
