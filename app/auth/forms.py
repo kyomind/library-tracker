@@ -77,7 +77,7 @@ class RequestResetForm(FlaskForm):
         if not User.query.filter_by(email=field.data).first():
             raise ValidationError('信箱不存在')
 
-# 重置密碼頁面表單
+# 重置密碼表單
 class ResetPasswordForm(FlaskForm):
     new_password= PasswordField('請輸入新密碼 ',validators=[DataRequired(),
     EqualTo('new_password2',message='輸入的新密碼不一致'),

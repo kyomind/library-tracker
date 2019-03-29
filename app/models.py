@@ -29,19 +29,22 @@ class User(UserMixin, db.Model):
 
     def get_jwt(self,expire):
         token=jwt.encode(
-            {'email':self.email,'exp':time.time()+expire},
+            {'email':self.email,'expire':time.time()+expire},
             current_app.config['SECRET_KEY'],
             algorithm='HS256'
         )
         return token
 
+    @classmethod
     def verify_jwt(self, token):
         try:
             answer_dict=jwt.decode(token,current_app.config['SECRET_KEY'],
             algorithm='HS256')
-            email=answer_dict['email']
         except:
             return
+        if answer_dict['expire'] > time.time():
+            return
+        email=answer_dict['email']
         user = User.query.filter_by(email=email).first()
         return user
 

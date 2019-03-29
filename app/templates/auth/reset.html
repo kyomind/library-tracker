@@ -9,22 +9,26 @@
 
 
 
-<h1 style="font-family: 'Roboto Slab', serif;">Send Reset Link</h1>
-<div style="color: rgb(125, 125, 125);margin-bottom: 10px">請填入註冊之信箱，系統將發送確認重置信件至該信箱 </div>
-
+<h1 style="font-family: 'Roboto Slab', serif;">Reset Password</h1>
     <form action="" method="post">
             {{ form.hidden_tag() }}
         <p>
-            {{ form.email.label }}
-            <input id="email" name="email" required type="text" value="" class="form-control custom-control-inline form-control-sm w-25">
-            {% for error in form.email.errors %}
+            {{ form.new_password.label }}
+            <input id="new_password" name="new_password" required type="password" value="" class="form-control custom-control-inline form-control-sm w-25">
+            {% for error in form.new_password.errors %}
                 <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
-  
+        <p>
+            {{ form.new_password2.label }}
+            <input id="new_password2" name="new_password2" required type="password" value="" class="form-control custom-control-inline form-control-sm w-25">
+            {% for error in form.new_password2.errors %}
+                <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
       
         <p>
-            <input id="submit" name="submit" type="submit" value="確認送出" class="btn btn-dark">
+            <input id="submit" name="submit" type="submit" value="重置密碼" class="btn btn-dark">
         </p>
     </form>
 {% endblock %}

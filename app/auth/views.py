@@ -90,14 +90,14 @@ def edit():
     return render_template('auth/edit.html',form=form)
 
 # 重置密碼「請求」頁面
-@auth.route('/auth/reset', methods=['GET','POST'])
-def reset():
+@auth.route('/auth/send', methods=['GET','POST'])
+def send():
     form=RequestResetForm()
     if form.validate_on_submit():
         user=User.query.filter_by(email=form.email.data).first()
         if user:
             token=user.get_jwt(600)
-            url=url_for('auth.token',_external=True,token=token)
+            url=url_for('auth.reset',_external=True,token=token)
             send_email('重置密碼確認信', user.email, 'mail/link',
             name=user.username, url=url)
             flash(u'信件已寄出，請至信箱確認','success')
@@ -105,25 +105,31 @@ def reset():
             pass
         return redirect(url_for('auth.login'))
 
-    return render_template('auth/reset.html',form=form)
+    return render_template('auth/send.html',form=form)
 
-# 重置密碼token頁面
-@auth.route('/auth/token/<token>', methods=['GET','POST'])
-def token(token):
+# 重置密碼(with token)頁面
+@auth.route('/auth/reset/<token>', methods=['GET','POST'])
+def reset(token):
     if current_user.is_authenticated:
+        flash(u'已登入用戶請直接使用「修改密碼」','warning')
         return redirect(url_for('main.index'))
     
-    if not 64<len(token)<256:
-        return render_template('404.html'),404
-
-
+    user= User.verify_jwt(token)
+    
+    if not user:
+        flash(u'憑證錯誤或逾期','danger')
+        return redirect(url_for('auth.login'))
 
     form=ResetPasswordForm()
+
     if form.validate_on_submit():
-        pass
+        user.set_password(form.new_password.data)
+        db.session.add(user)
+        db.session.commit()
+        flash(u'重置密碼成功，請以新密碼登入','success')
+        return redirect(url_for('auth.login'))
 
-
-    return render_template('auth/token.html', form=form, token=token)
+    return render_template('auth/reset.html', form=form, token=token)
 
 
 
