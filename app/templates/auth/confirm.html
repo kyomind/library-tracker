@@ -7,9 +7,17 @@
 
 {% block page_content %}
 
-驗證連結已寄至你的註冊信箱
-<span style="font-family: 'Roboto Slab', serif;font-size: 12pt" class="badge badge-primary">
-{{email}}</span>，請至信箱收信並點擊驗證
 
+請點擊
+<a href="{{ url_for('auth.confirm_sent')}}">
+    <span style="font-family: 'Roboto Slab', serif;font-size: 12pt" class="badge badge-primary">
+        送出驗證
+    </span>
+</a>
+按鈕，系統將會寄一封驗證信至你的註冊信箱
+<span style="font-family: 'Roboto Slab', serif;font-size: 12pt">
+        {{ email }}
+</span>
+        
 
 {% endblock %}

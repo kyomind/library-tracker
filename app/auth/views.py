@@ -146,18 +146,27 @@ def reset(token):
     return render_template('auth/reset.html', form=form, token=token)
 
 
-# 驗證信箱
-@auth.route('/auth/confirm', methods=['GET','POST'])
+# 驗證信箱請求頁面
+@auth.route('/auth/confirm')
 @login_required
 def confirm():
+    return render_template('auth/confirm.html', email=current_user.email)
+
+
+# 驗證信箱請求已送出
+@auth.route('/auth/confirm_sent')
+@login_required
+def confirm_sent():
     token=current_user.get_jwt(600)
     url=url_for('auth.confirmed',_external=True,token=token)
     send_email('信箱驗證', current_user.email, 'mail/confirm',
     name=current_user.username, url=url)
-    return render_template('auth/confirm.html', email=current_user.email)
+    return render_template('auth/confirm_sent.html', email=current_user.email)
 
 
-# 驗證網址
+
+
+# 驗證信箱(with token)網址
 @auth.route('/auth/confirm/<token>', methods=['GET','POST'])
 def confirmed(token):
     user= User.verify_jwt(token)
