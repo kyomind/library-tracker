@@ -62,7 +62,7 @@ def register():
 @auth.route('/auth/change', methods=['GET','POST'])
 @login_required
 def change():
-    form= ChangePasswordForm()
+    form = ChangePasswordForm()
     user = User.query.filter_by(username=
         current_user.username).first()
 
@@ -76,6 +76,7 @@ def change():
         db.session.commit()
         flash(u'變更密碼成功','success')
         return redirect(url_for('main.user',name=current_user.username))
+
     return render_template('auth/change.html',form=form)
 
 
@@ -150,6 +151,10 @@ def reset(token):
 @auth.route('/auth/confirm')
 @login_required
 def confirm():
+    if current_user.confirmed:
+        flash(u'信箱已驗證，請勿重複驗證','warning')
+        return redirect(url_for('main.user',name=current_user.username))
+
     return render_template('auth/confirm.html', email=current_user.email)
 
 
@@ -157,6 +162,10 @@ def confirm():
 @auth.route('/auth/confirm_sent')
 @login_required
 def confirm_sent():
+    if current_user.confirmed:
+        flash(u'信箱已驗證，請勿重複驗證','warning')
+        return redirect(url_for('main.user',name=current_user.username))
+
     token=current_user.get_jwt(600)
     url=url_for('auth.confirmed',_external=True,token=token)
     send_email('信箱驗證', current_user.email, 'mail/confirm',
@@ -164,15 +173,18 @@ def confirm_sent():
     return render_template('auth/confirm_sent.html', email=current_user.email)
 
 
-
-
 # 驗證信箱(with token)網址
 @auth.route('/auth/confirm/<token>', methods=['GET','POST'])
 def confirmed(token):
+    if not current_user.is_authenticated:
+        flash(u'請登入以進行驗證','danger')
+        return redirect(url_for('main.index'))
+
     user= User.verify_jwt(token)
     if not user:
         flash(u'憑證錯誤或逾期，請重新點選驗證功能','danger')
         return redirect(url_for('main.user',name=user.username))
+
     user.confirmed=True
     db.session.add(user)
     db.session.commit()
