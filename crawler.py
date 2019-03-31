@@ -103,11 +103,21 @@ def update_book_data(book_id):
 
 if __name__ == "__main__":
     book_id_list=get_update_list_from_db()
-    print(book_id_list)
+    print(book_id_list,f'共有{len(book_id_list)}本書')
+    error_count=0
     for book_id in book_id_list:
-        print('開始寫入')
-        update_book_data(book_id)
-        print(f'寫完{book_id}了')
+        print('開始寫入',book_id)
+        try:
+            update_book_data(book_id)
+        except BaseException as err:
+            print(err)
+            print('本書更新失敗',f'book_id={book_id}')
+            error_count= error_count+1
+            if error_count > 2:
+                print('書籍更新失敗達3次，中止更新')
+                break
+            continue
+        print('本書完成')
         time.sleep(random.uniform(3.14159, 16.18033))
 
 
