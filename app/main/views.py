@@ -5,7 +5,7 @@ from app import db
 from app.models import User,Book
 from flask_login import current_user,login_required
 from datetime import timedelta
-from app.crawler import get_book_id, get_book_data, get_update_list_from_db
+from crawler import get_book_id, get_book_data
 
 # 首頁，追縱清單
 @main.route('/', methods=['GET','POST'])
@@ -105,9 +105,6 @@ def user(name):
                 db.session.commit()
             flash(u'書籍新增成功！','success')
             return redirect(url_for('main.user',name=name))
-
-        # 爬蟲
-        books=get_book_data(book_id)
 
         for book in books:
             data = Book(book_name=book[0], book_id=book[1],
