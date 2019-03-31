@@ -5,7 +5,7 @@ from app import db
 from app.models import User,Book
 from flask_login import current_user,login_required
 from datetime import timedelta
-from app.crawler import get_book_id, get_book_data
+from app.crawler import get_book_id, get_book_data, get_update_list_from_db
 
 # 首頁，追縱清單
 @main.route('/', methods=['GET','POST'])
@@ -45,7 +45,7 @@ def index():
             return redirect(url_for('main.index'))
         
         return render_template('index.html',books=numbered_books, form=form)
-        
+
     flash(u'請登入以使用本服務','warning')
     return render_template('index.html')
 
@@ -57,6 +57,9 @@ def user(name):
     join_time= current_user.join_time
     time= join_time+timedelta(hours=8)
     time= time.strftime("%Y-%m-%d")
+
+    book_list=get_update_list_from_db()
+    print(book_list)
 
     form=AddBookForm()
 

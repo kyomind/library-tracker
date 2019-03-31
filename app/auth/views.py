@@ -7,7 +7,6 @@ from flask_login import login_user,login_required,logout_user,current_user
 from app import db
 from app.email import send_email
 
-
 # 登入
 @auth.route('/auth/login', methods=['GET','POST'])
 def login():
@@ -39,7 +38,6 @@ def logout():
     session['name']= ''
     return redirect(url_for('main.index'))
 
-
 # 註冊
 @auth.route('/auth/register', methods=['GET','POST'])
 def register():
@@ -56,7 +54,6 @@ def register():
         flash(u'註冊成功！請登入','success')
         return redirect(url_for('auth.login'))
     return render_template('auth/register.html',form=form)
-
 
 # 變更密碼
 @auth.route('/auth/change', methods=['GET','POST'])
@@ -79,7 +76,6 @@ def change():
 
     return render_template('auth/change.html',form=form)
 
-
 # 修改信箱
 @auth.route('/auth/edit', methods=['GET','POST'])
 @login_required
@@ -101,7 +97,6 @@ def edit():
         return redirect(url_for('main.user',name=current_user.username))
 
     return render_template('auth/edit.html',form=form)
-
 
 # 重置密碼「請求」頁面
 @auth.route('/auth/send', methods=['GET','POST'])
@@ -146,7 +141,6 @@ def reset(token):
 
     return render_template('auth/reset.html', form=form, token=token)
 
-
 # 驗證信箱請求頁面
 @auth.route('/auth/confirm')
 @login_required
@@ -156,7 +150,6 @@ def confirm():
         return redirect(url_for('main.user',name=current_user.username))
 
     return render_template('auth/confirm.html', email=current_user.email)
-
 
 # 驗證信箱請求已送出
 @auth.route('/auth/confirm_sent')

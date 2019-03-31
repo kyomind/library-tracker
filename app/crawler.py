@@ -1,5 +1,9 @@
 import requests
 from bs4 import BeautifulSoup
+# from app import db
+from config import Config
+# from app.models import Book
+import sqlalchemy as sa
 
 def get_book_id(book_url):
     url=book_url.split('&')[0]
@@ -36,8 +40,16 @@ def get_book_data(book_id):
         books.append(book)
     return books
 
+# 取得資料庫所有書籍不重複id，使用SQLAlchemy但不透過ORM而是用底層SQL語法
+def get_update_list_from_db():
+    engine = sa.create_engine(Config.SQLALCHEMY_DATABASE_URI)
+    conn = engine.connect()
+    book_ids=conn.execute('select DISTINCT book_id from books')
+    book_id_list= [ book_id[0] for book_id in book_ids ]
+    return book_id_list
 
-
+def update_book_data(lst):
+    pass
 
 
 
