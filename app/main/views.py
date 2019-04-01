@@ -13,6 +13,7 @@ def index():
 
     if current_user.is_authenticated:
 
+        delta=timedelta(hours=8) # 用於模版調整UTC+8
         form=DeleteBookForm()
 
         books=Book.query.filter_by(this_user=current_user).all()
@@ -23,7 +24,6 @@ def index():
         # 為了達到這個功能，使用了相當迂迴的做法，想不到更簡單的
         item=0
         numbers=[]
-        delta=timedelta(hours=8)
         
         # 創造編號清單
         for book in books:
