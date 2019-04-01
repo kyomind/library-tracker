@@ -54,9 +54,9 @@ def get_book_data(book_id):
 # 取得資料庫所有書籍不重複id
 def get_update_list_from_db():
     engine = sa.create_engine(Config.SQLALCHEMY_DATABASE_URI)
-    conn = engine.connect()
-    book_ids=conn.execute('select DISTINCT book_id from books')
-    book_id_list= [ book_id[0] for book_id in book_ids ]
+    with engine.begin() as conn:
+        book_ids=conn.execute('select DISTINCT book_id from books')
+        book_id_list= [ book_id[0] for book_id in book_ids ]
     return book_id_list
 
 def update_book_data(book_id):
