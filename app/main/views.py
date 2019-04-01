@@ -1,6 +1,6 @@
-from flask import Flask,render_template,redirect,url_for,session,flash
+from flask import render_template,redirect,url_for,flash
 from . import main
-from .forms import LoginForm,AddBookForm,DeleteBookForm
+from .forms import AddBookForm,DeleteBookForm
 from app import db
 from app.models import User,Book
 from flask_login import current_user,login_required
@@ -58,9 +58,6 @@ def user(name):
     time= join_time+timedelta(hours=8)
     time= time.strftime("%Y-%m-%d")
 
-    book_list=get_update_list_from_db()
-    print(book_list)
-
     form=AddBookForm()
 
     count=Book.query.filter_by(user_id=current_user.id).group_by(Book.book_id).count()
@@ -105,6 +102,8 @@ def user(name):
                 db.session.commit()
             flash(u'書籍新增成功！','success')
             return redirect(url_for('main.user',name=name))
+
+        books=get_book_data(book_id)
 
         for book in books:
             data = Book(book_name=book[0], book_id=book[1],
