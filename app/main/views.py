@@ -23,10 +23,10 @@ def index():
         # 為了達到這個功能，使用了相當迂迴的做法，想不到更簡單的
         item=0
         numbers=[]
+        delta=timedelta(hours=8)
         
-        # 把所有書的UTC時間改成UTC+8，同時編寫項目數字清單numbers
+        # 創造編號清單
         for book in books:
-            book.update_time=book.update_time+timedelta(hours=8)
             # 利用book.copy只有換新一本書才會回到1的特性
             if book.copy=='1':
                 item=item+1
@@ -44,7 +44,7 @@ def index():
             flash(u'書籍刪除成功','warning')
             return redirect(url_for('main.index'))
         
-        return render_template('index.html',books=numbered_books, form=form)
+        return render_template('index.html',books=numbered_books, form=form, delta=delta)
 
     flash(u'請登入以使用本服務','warning')
     return render_template('index.html')
@@ -56,7 +56,6 @@ def index():
 def user(name):
     join_time= current_user.join_time
     time= join_time+timedelta(hours=8)
-    time= time.strftime("%Y-%m-%d")
 
     form=AddBookForm()
 
@@ -86,8 +85,6 @@ def user(name):
                     flash(u'書籍已存在，無法新增','danger')
                     return redirect(url_for('main.user',name=name))
                 last_user_id=book.user_id
-            # 好，雖然資料庫已存在該本書，但都不是目前使用者持有
-            # 確定使用者可以新增該書
 
             # 為了節省圖書館伺服器資源，要從資料庫複製已有的資料
             copy_books= Book.query.filter_by(book_id=book_id, user_id=last_user_id).all()

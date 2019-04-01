@@ -71,7 +71,7 @@
       <td>{{ book[1].data_type }}</td>
       <td>{{ book[1].status }}</td>
       <td>{{ book[1].reservation }}</td>
-      <td>{{ book[1].update_time.strftime("%m-%d %H:%M") }}</td>
+      <td>{{ (book[1].update_time + delta).strftime("%m-%d %H:%M") }}</td>
     </tr>
   {% endfor %}
   </tbody>
