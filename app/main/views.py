@@ -100,7 +100,11 @@ def user(name):
             flash(u'書籍新增成功！','success')
             return redirect(url_for('main.user',name=name))
 
-        books=get_book_data(book_id)
+        try:
+            books=get_book_data(book_id)
+        except:
+            flash(u'很抱歉，無此id之書籍','danger')
+            return redirect(url_for('main.user',name=name))
 
         for book in books:
             data = Book(book_name=book[0], book_id=book[1],
@@ -110,7 +114,7 @@ def user(name):
 
             db.session.add(data)
             db.session.commit()
-        flash(u'書籍新增成功！','success')
+        flash(u'書籍「{}」新增成功！'.format(book[0]),'success')
         return redirect(url_for('main.user',name=name))
 
     return render_template('user.html',name=name,time=time,form=form,count=count)

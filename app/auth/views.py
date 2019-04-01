@@ -23,14 +23,14 @@ def login():
             # 使用login_user()將用戶維持在登入狀態
             login_user(user, remember=form.remember.data)
 
-            flash(u'登入成功！','success')
+            flash(u'登入成功！歡迎回來 {}'.format(user.username),'success')
             return redirect(url_for('main.index'))
         flash(u'帳號名稱或密碼錯誤','danger')
     return render_template('auth/login.html',form=form)
 
 
 # 登出
-@auth.route('/logout')
+@auth.route('/auth/logout')
 @login_required
 def logout():
     logout_user()

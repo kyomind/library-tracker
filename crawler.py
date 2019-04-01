@@ -37,6 +37,9 @@ def get_book_data(book_id):
     book_name=get_book_name(book_id)
     table=get_book_table(book_id)
 
+    if table == None:
+        raise ValueError('page not exists')
+
     books = []
     for tr in table.find_all('tr')[1:]:
         book = []
