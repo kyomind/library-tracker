@@ -8,7 +8,7 @@ from app import db
 from app.email import send_email
 
 # 登入
-@auth.route('/auth/login', methods=['GET','POST'])
+@auth.route('/login', methods=['GET','POST'])
 def login():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
@@ -30,7 +30,7 @@ def login():
 
 
 # 登出
-@auth.route('/auth/logout')
+@auth.route('/logout')
 @login_required
 def logout():
     logout_user()
@@ -39,7 +39,7 @@ def logout():
     return redirect(url_for('main.index'))
 
 # 註冊
-@auth.route('/auth/register', methods=['GET','POST'])
+@auth.route('/register', methods=['GET','POST'])
 def register():
     if current_user.is_authenticated:
         return redirect(url_for('main.index'))
@@ -56,7 +56,7 @@ def register():
     return render_template('auth/register.html',form=form)
 
 # 變更密碼
-@auth.route('/auth/change', methods=['GET','POST'])
+@auth.route('/change', methods=['GET','POST'])
 @login_required
 def change():
     form = ChangePasswordForm()
@@ -77,7 +77,7 @@ def change():
     return render_template('auth/change.html',form=form)
 
 # 修改信箱
-@auth.route('/auth/edit', methods=['GET','POST'])
+@auth.route('/edit', methods=['GET','POST'])
 @login_required
 def edit():
     form= EditEmailForm()
@@ -99,7 +99,7 @@ def edit():
     return render_template('auth/edit.html',form=form)
 
 # 重置密碼「請求」頁面
-@auth.route('/auth/send', methods=['GET','POST'])
+@auth.route('/send', methods=['GET','POST'])
 def send():
     form=RequestResetForm()
     if form.validate_on_submit():
@@ -118,7 +118,7 @@ def send():
 
 
 # 重置密碼(with token)頁面
-@auth.route('/auth/reset/<token>', methods=['GET','POST'])
+@auth.route('/reset/<token>', methods=['GET','POST'])
 def reset(token):
     if current_user.is_authenticated:
         flash(u'已登入用戶請直接使用「修改密碼」','warning')
@@ -142,7 +142,7 @@ def reset(token):
     return render_template('auth/reset.html', form=form, token=token)
 
 # 驗證信箱請求頁面
-@auth.route('/auth/confirm')
+@auth.route('/confirm')
 @login_required
 def confirm():
     if current_user.confirmed:
@@ -152,7 +152,7 @@ def confirm():
     return render_template('auth/confirm.html', email=current_user.email)
 
 # 驗證信箱請求已送出
-@auth.route('/auth/confirm_sent')
+@auth.route('/confirm_sent')
 @login_required
 def confirm_sent():
     if current_user.confirmed:
@@ -167,7 +167,7 @@ def confirm_sent():
 
 
 # 驗證信箱(with token)網址
-@auth.route('/auth/confirm/<token>', methods=['GET','POST'])
+@auth.route('/confirm/<token>', methods=['GET','POST'])
 def confirmed(token):
     if not current_user.is_authenticated:
         flash(u'請登入以進行驗證','danger')
