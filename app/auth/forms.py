@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField,SubmitField,PasswordField,BooleanField
-from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp,ValidationError
+from wtforms.validators import DataRequired, Email, Length, EqualTo, Regexp, ValidationError, Optional
 from app.models import User
 
 # 登入表單
@@ -17,14 +17,14 @@ class RegisterForm(FlaskForm):
     '帳號格式：大寫或小寫英文字母開頭，可包括數字，不含特殊符號'),
     Length(3,15,message='帳號長度為3至15字元')])
    
-    password= PasswordField('密碼 ',validators=[DataRequired(),
+    password= PasswordField('密碼',validators=[DataRequired(),
     EqualTo('password2',message='輸入的密碼不一致'),
     Length(6,20,message='密碼長度為6至20字元')])
     
-    password2= PasswordField('再次確認密碼 ',validators=[DataRequired(),
+    password2= PasswordField('再次確認密碼',validators=[DataRequired(),
     Length(6,20,message='密碼長度為6至20字元')])
     
-    email= StringField('信箱',validators=[DataRequired(),
+    email= StringField('信箱',validators=[Optional(),
     Email(message='信箱格式有誤')])
     
     submit= SubmitField('註冊')
