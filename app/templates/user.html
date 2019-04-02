@@ -27,7 +27,7 @@
 
 
 <h3 style="font-family: 'Roboto Slab', serif;margin-bottom: 0px">Add Books</h3>
-<div style="color: rgb(155, 155, 155);margin-bottom: 10px">請「擇一輸入」書目網址或書目id </div>
+<div style="font-family: 'Roboto Slab', serif; color: rgb(155, 155, 155); margin-bottom: 10px">請「擇一輸入」書目網址或書目id </div>
 <form action="" method="post">
         {{ form.hidden_tag() }}
     <p>
@@ -38,7 +38,7 @@
         {% endfor %}
     </p>
     <p>
-        {{ form.book_id.label }}
+        <label for="book_id" style="font-family: 'Roboto Slab', serif;">請輸入書目id</label>
         <input id="book_id" name="book_id" type="text" value="" class="form-control custom-control-inline form-control-sm w-25">
         {% for error in form.book_id.errors %}
             <span style="color: red;">[{{ error }}]</span>

@@ -15,7 +15,15 @@
     <script>   
         window.setTimeout(function() {
         $(".alert").alert('close')}, 5000);           
-    </script>
+    
+        function logout() { 
+        var msg = "確定要登出嗎？"; 
+        if (confirm(msg)==true){ 
+        return true; 
+        }else{ 
+        return false;} 
+        } 
+    </script> 
     
     <title>{% block title %}{% endblock %}</title>
 </head>
@@ -61,7 +69,7 @@
                     {% endif %}
 
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{ url_for('auth.logout') }}">登出</a>
+                    <a class="dropdown-item" href="{{ url_for('auth.logout') }}" onclick="javascript:return logout()">登出</a>
                 </div>
             </li>
 

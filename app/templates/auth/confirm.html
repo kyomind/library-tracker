@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 
-{% block title %}信箱驗證{% endblock %}
+{% block title %}驗證信箱{% endblock %}
 
 
 
@@ -10,8 +10,8 @@
 
 請點擊
 <a href="{{ url_for('auth.confirm_sent')}}" class="btn btn-primary" role="button">送出驗證</a>
-按鈕，系統將會寄一封驗證信至你的註冊信箱
-<span style="font-family: 'Roboto Slab', serif;font-size: 12pt">
+按鈕，系統將會寄一封驗證信至你的註冊信箱：
+<span style="font-family: 'Roboto Slab', serif;">
         {{ email }}
 </span>
         

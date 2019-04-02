@@ -1,7 +1,15 @@
 {% extends 'base.html' %}
 
 
-{% block title %}新增或修改信箱{% endblock %}
+{% block title %}
+
+{% if current_user.email %}
+修改信箱
+{% else %}
+新增信箱
+{% endif %}
+
+{% endblock %}
 
 
 
