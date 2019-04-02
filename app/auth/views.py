@@ -62,12 +62,16 @@ def register():
 @login_required
 def change():
     form = ChangePasswordForm()
-    user = User.query.filter_by(username=
-        current_user.username).first()
 
     if form.validate_on_submit():
+        user = User.query.filter_by(id=current_user.id).first()
+
         if not user.check_password(str(form.old_password.data)):
             flash(u'舊密碼錯誤','danger')
+            return render_template('auth/change.html',form=form)
+
+        if form.old_password.data == form.new_password.data:
+            flash(u'新密碼不可與舊密碼重複','danger')
             return render_template('auth/change.html',form=form)
 
         user.set_password(form.new_password.data)
@@ -127,7 +131,7 @@ def reset_send():
 @auth.route('/reset/<token>', methods=['GET','POST'])
 def reset(token):
     if current_user.is_authenticated:
-        flash(u'已登入用戶請直接使用「修改密碼」','warning')
+        flash(u'已登入用戶請直接使用「變更密碼」','warning')
         return redirect(url_for('main.index'))
     
     user= User.verify_jwt(token)

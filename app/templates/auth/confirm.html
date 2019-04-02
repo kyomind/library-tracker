@@ -9,9 +9,7 @@
 
 
 請點擊
-<a href="{{ url_for('auth.confirm_sent')}}">
-    <span class="badge badge-primary">送出驗證</span>
-</a>
+<a href="{{ url_for('auth.confirm_sent')}}" class="btn btn-primary" role="button">送出驗證</a>
 按鈕，系統將會寄一封驗證信至你的註冊信箱
 <span style="font-family: 'Roboto Slab', serif;font-size: 12pt">
         {{ email }}
