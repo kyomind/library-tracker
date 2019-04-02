@@ -82,7 +82,7 @@ def user(name):
             # 遍歷查詢每一本是否為目前使用者持有
             for book in same_books:
                 if book.user_id==current_user.id:
-                    flash(u'書籍已存在，無法新增','danger')
+                    flash(u'你已收藏本書，無法新增','danger')
                     return redirect(url_for('main.user',name=name))
                 last_user_id=book.user_id
 
@@ -97,13 +97,13 @@ def user(name):
 
                 db.session.add(data)
                 db.session.commit()
-            flash(u'書籍新增成功！','success')
+            flash(u'新增成功！書名：{}'.format(book.book_name),'success')
             return redirect(url_for('main.user',name=name))
 
         try:
             books=get_book_data(book_id)
         except:
-            flash(u'很抱歉，無此id之書籍','danger')
+            flash(u'新增失敗，查無此id之書籍','danger')
             return redirect(url_for('main.user',name=name))
 
         for book in books:
@@ -114,7 +114,7 @@ def user(name):
 
             db.session.add(data)
             db.session.commit()
-        flash(u'書籍「{}」新增成功！'.format(book[0]),'success')
+        flash(u'新增成功！書名：{}'.format(book[0]),'success')
         return redirect(url_for('main.user',name=name))
 
     return render_template('user.html',name=name,time=time,form=form,count=count)

@@ -1,16 +1,20 @@
 {% extends 'base.html' %}
 
 
-{% block title %}修改信箱{% endblock %}
+{% block title %}新增或修改信箱{% endblock %}
 
 
 
 {% block page_content %}
 
 
-
+{% if current_user.email %}
 <h1 style="font-family: 'Roboto Slab', serif;">Edit E-mail</h1>
-<div style="color: rgb(155, 155, 155);margin-bottom: 10px">請注意，修改信箱後須重新驗證</div>
+<div style="color: rgb(155, 155, 155);margin-bottom: 10px">請注意，修改信箱後需重新驗證</div>
+{% else %}
+<h1 style="font-family: 'Roboto Slab', serif;">Add E-mail</h1>
+<div style="color: rgb(155, 155, 155);margin-bottom: 10px">請注意，新增信箱後只能修改無法移除</div>
+{% endif %}
 
     <form action="" method="post">
             {{ form.hidden_tag() }}
@@ -37,7 +41,11 @@
         </p>
       
         <p>
+            {% if current_user.email %}
             <input id="submit" name="submit" type="submit" value="修改信箱" class="btn btn-dark">
+            {% else %}
+            <input id="submit" name="submit" type="submit" value="新增信箱" class="btn btn-dark">
+            {% endif %}
         </p>
     </form>
 {% endblock %}

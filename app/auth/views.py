@@ -34,8 +34,6 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash(u'你已經登出了','warning')
-    session['name']= ''
     return redirect(url_for('main.index'))
 
 # 註冊
@@ -80,11 +78,11 @@ def change():
 
     return render_template('auth/change.html',form=form)
 
-# 修改信箱
+# 新增、修改信箱
 @auth.route('/edit', methods=['GET','POST'])
 @login_required
 def edit():
-    form= EditEmailForm()
+    form = EditEmailForm()
     user = User.query.filter_by(username=
         current_user.username).first()
 
@@ -93,18 +91,22 @@ def edit():
             flash(u'密碼錯誤','danger')
             return render_template('auth/edit.html',form=form)
 
+        if user.email:
+            flash(u'修改信箱成功，請重新驗證','success')
+        else:
+            flash(u'新增信箱成功，請進行驗證','success')
+        
         user.email=form.new_email.data
         user.confirmed=False
         db.session.add(user)
         db.session.commit()
-        flash(u'修改信箱成功，請重新驗證','success')
         return redirect(url_for('main.user',name=current_user.username))
 
-    return render_template('auth/edit.html',form=form)
+    return render_template('auth/email_edit.html',form=form)
 
 # 重置密碼「請求」頁面
-@auth.route('/send', methods=['GET','POST'])
-def send():
+@auth.route('/reset_send', methods=['GET','POST'])
+def reset_send():
     form=RequestResetForm()
     if form.validate_on_submit():
         user=User.query.filter_by(email=form.email.data).first()
@@ -118,7 +120,7 @@ def send():
             pass
         return redirect(url_for('auth.login'))
 
-    return render_template('auth/send.html',form=form)
+    return render_template('auth/reset_send.html',form=form)
 
 
 # 重置密碼(with token)頁面
@@ -150,8 +152,10 @@ def reset(token):
 @login_required
 def confirm():
     if current_user.confirmed:
-        flash(u'信箱已驗證，請勿重複驗證','warning')
         return redirect(url_for('main.user',name=current_user.username))
+    
+    if not current_user.email:
+        return redirect(url_for('auth.edit'))
 
     return render_template('auth/confirm.html', email=current_user.email)
 
