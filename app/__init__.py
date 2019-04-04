@@ -1,9 +1,10 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-from config import Config
 from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_mail import Mail
+from config import mode
+
 
 db=SQLAlchemy()
 mylogin=LoginManager()
@@ -13,7 +14,7 @@ mail=Mail()
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(Config)
+    app.config.from_object(mode['dev'])
 
     db.init_app(app)
     mylogin.init_app(app)

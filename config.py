@@ -15,3 +15,25 @@ class Config:
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_DEFAULT_SENDER = 'Library Tracker'
 
+class DevConfig(Config):
+    DEBUG = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
+        'sqlite:///' + os.path.join(basedir, 'tracker.db')
+
+class TestConfig(Config):
+    TESTING = True
+    SQLALCHEMY_DATABASE_URI = os.environ.get('TEST_DATABASE_URL') or \
+        'sqlite://'
+    WTF_CSRF_ENABLED = False
+
+class DeployConfig(Config):
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
+        'sqlite:///' + os.path.join(basedir, 'data.db')
+
+mode = {
+    'dev': DevConfig,
+    'test': TestConfig,
+    'deploy': DeployConfig,
+    # 'heroku': HerokuConfig,
+    # 'docker': DockerConfig,
+}
