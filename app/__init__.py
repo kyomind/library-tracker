@@ -12,9 +12,10 @@ migrate=Migrate()
 mail=Mail()
 
 
-def create_app():
+def create_app(mode_key):
     app = Flask(__name__)
-    app.config.from_object(mode['dev'])
+    app.config.from_object(mode[mode_key])
+    mode[mode_key].init_app(app)
 
     db.init_app(app)
     mylogin.init_app(app)
