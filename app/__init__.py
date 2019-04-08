@@ -28,4 +28,9 @@ def create_app(mode_key):
     from app.auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint, url_prefix='/auth')
 
+    if app.config['SSL_REDIRECT']:
+        from flask_sslify import SSLify
+        sslify=SSLify()
+        sslify.init_app(app)
+
     return app

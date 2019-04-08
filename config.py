@@ -1,6 +1,7 @@
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
 
@@ -14,14 +15,18 @@ class Config:
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     MAIL_DEFAULT_SENDER = 'Library Tracker'
 
+    SSL_REDIRECT = False
+
     @staticmethod
     def init_app(app):
         pass
+
 
 class DevConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = os.environ.get('DEV_DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'tracker.db')
+
 
 class TestConfig(Config):
     TESTING = True
@@ -29,19 +34,30 @@ class TestConfig(Config):
         'sqlite://'
     WTF_CSRF_ENABLED = False
 
+
 class DeployConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         'sqlite:///' + os.path.join(basedir, 'data.db')
 
-class HerokuConfig(DeployConfig):
-    @classmethod
-    def init_app(cls,app):
-        DeployConfig.init_app(app)
 
+class HerokuConfig(DeployConfig):
+
+    SSL_REDIRECT = True if os.getenv('DYNO') else False
+
+    # Heroku部署特有初始化設定，以類別呼叫
+    @classmethod
+    def init_app(cls, app):
+        DeployConfig.init_app(app)  # 呼叫一般初始化(目前無設定)
+
+        # 記錄一般錯誤
         import logging
         file_handler = logging.StreamHandler()
         file_handler.setLevel(logging.INFO)
         app.logger.addHandler(file_handler)
+
+        # 處理反向代理伺服器的標頭
+        from werkzeug.contrib.fixers import ProxyFix
+        app.wsgi_app = ProxyFix(app.wsgi_app)
 
 
 mode = {
