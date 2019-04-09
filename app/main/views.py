@@ -59,8 +59,11 @@ def user(name):
 
     form=AddBookForm()
 
-    count=Book.query.filter_by(user_id=current_user.id).group_by(Book.book_id).count()
-
+    # count=Book.query.filter_by(user_id=current_user.id).distinct().count()
+    command=Book.query.filter_by(user_id=current_user.id).group_by(Book.book_id).all()
+    print(command)
+    # conut=str(len(command))
+    # print(count)
     if form.validate_on_submit():
         if form.book_url.data and form.book_id.data:
             flash(u'請擇一輸入','danger')
@@ -117,4 +120,4 @@ def user(name):
         flash(u'新增成功！書名：{}'.format(book[0]),'success')
         return redirect(url_for('main.user',name=name))
 
-    return render_template('user.html',name=name,time=time,form=form,count=count)
+    return render_template('user.html',name=name,time=time,form=form,count=len(command))
