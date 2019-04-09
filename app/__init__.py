@@ -30,7 +30,6 @@ def create_app(mode_key):
 
     if app.config['SSL_REDIRECT']:
         from flask_sslify import SSLify
-        sslify=SSLify()
-        sslify.init_app(app)
+        sslify = SSLify(app)
 
     return app
