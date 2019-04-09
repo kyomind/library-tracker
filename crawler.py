@@ -89,8 +89,13 @@ def update_book_data(book_id):
         books.append(book_dict)
     
     conn = engine.connect()
-    sql_command='UPDATE books SET status=?, reservation=?, \
-    update_time=? WHERE book_id=? AND copy=?'
+
+    if mode_key=='heroku':
+        sql_command='UPDATE books SET status=?, reservation=?, \
+        update_time=? WHERE book_id=? AND copy=?'
+    else:
+        sql_command='UPDATE books SET status=%s, reservation=%s, \
+        update_time=%s WHERE book_id=%s AND copy=%s'
 
     interval=20
     for book in books:

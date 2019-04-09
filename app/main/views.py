@@ -5,8 +5,7 @@ from app import db
 from app.models import User,Book
 from flask_login import current_user,login_required
 from datetime import timedelta
-from crawler import get_book_id, get_book_data
-from crawler import engine
+from crawler import get_book_id, get_book_data, engine, mode_key
 
 
 # 首頁，追縱清單
@@ -62,14 +61,18 @@ def user(name):
     form=AddBookForm()
 
     with engine.begin() as conn:
-        result=conn.execute('select COUNT(DISTINCT book_id) from books where user_id=%s', current_user.id)
+        print(mode_key)
+        if mode_key=='heroku':
+            sql_command='select COUNT(DISTINCT book_id) from books where user_id=%s'
+        else:
+            sql_command='select COUNT(DISTINCT book_id) from books where user_id=?'
+
+        result=conn.execute(sql_command, current_user.id)
         for i in result:
             count=i[0]
     # count=Book.query.filter_by(user_id=current_user.id).distinct().count()
-    # comand=Book.query.filter_by(user_id=current_user.id).group_by(Book.book_id).all()
-    # print(command)
-    # conut=str(len(command))
-    # print(count)
+    # count=Book.query.filter_by(user_id=current_user.id).group_by(Book.book_id).count()
+   
     if form.validate_on_submit():
         if form.book_url.data and form.book_id.data:
             flash(u'請擇一輸入','danger')
