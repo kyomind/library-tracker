@@ -1,10 +1,16 @@
 import requests
 from bs4 import BeautifulSoup
-from config import Config
+from config import mode
 import sqlalchemy as sa
 import time
 import random
 from datetime import datetime
+import os
+
+
+mode_key=os.getenv('FLASK_CONFIG') or 'dev'
+db_url=mode[mode_key].SQLALCHEMY_DATABASE_URI
+
 
 def get_book_id(book_url):
     url=book_url.split('&')[0]
@@ -56,7 +62,7 @@ def get_book_data(book_id):
 
 # 取得資料庫所有書籍不重複id
 def get_update_list_from_db():
-    engine = sa.create_engine(Config.SQLALCHEMY_DATABASE_URI)
+    engine = sa.create_engine(db_url)
     with engine.begin() as conn:
         book_ids=conn.execute('select DISTINCT book_id from books')
         book_id_list= [ book_id[0] for book_id in book_ids ]
@@ -82,7 +88,7 @@ def update_book_data(book_id):
             book_dict = dict(zip(book_key, book))
         books.append(book_dict)
     
-    engine = sa.create_engine(Config.SQLALCHEMY_DATABASE_URI)
+    engine = sa.create_engine(db_url)
     conn = engine.connect()
     sql_command='UPDATE books SET status=?, reservation=?, \
     update_time=? WHERE book_id=? AND copy=?'
@@ -108,7 +114,10 @@ def update_book_data(book_id):
 
 if __name__ == "__main__":
     book_id_list=get_update_list_from_db()
-    print(book_id_list,f'共有{len(book_id_list)}本書')
+    print(book_id_list)
+    print(f'共有 {len(book_id_list)} 本書')
+    if len(book_id_list) == 0:
+        print('資料庫無任何書籍')
     error_count=0
     for book_id in book_id_list:
         print('開始寫入',book_id)
