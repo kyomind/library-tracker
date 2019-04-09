@@ -6,6 +6,8 @@ from app.models import User,Book
 from flask_login import current_user,login_required
 from datetime import timedelta
 from crawler import get_book_id, get_book_data
+from crawler import engine
+
 
 # 首頁，追縱清單
 @main.route('/', methods=['GET','POST'])
@@ -59,9 +61,13 @@ def user(name):
 
     form=AddBookForm()
 
+    with engine.begin() as conn:
+        result=conn.execute('select COUNT(DISTINCT book_id) from books where user_id=?', current_user.id)
+        for i in result:
+            count=i[0]
     # count=Book.query.filter_by(user_id=current_user.id).distinct().count()
-    command=Book.query.filter_by(user_id=current_user.id).group_by(Book.book_id).all()
-    print(command)
+    # comand=Book.query.filter_by(user_id=current_user.id).group_by(Book.book_id).all()
+    # print(command)
     # conut=str(len(command))
     # print(count)
     if form.validate_on_submit():
@@ -120,4 +126,4 @@ def user(name):
         flash(u'新增成功！書名：{}'.format(book[0]),'success')
         return redirect(url_for('main.user',name=name))
 
-    return render_template('user.html',name=name,time=time,form=form,count=len(command))
+    return render_template('user.html',name=name,time=time,form=form,count=count)
