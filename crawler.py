@@ -1,7 +1,7 @@
 import requests
 from bs4 import BeautifulSoup
 from config import mode
-import sqlalchemy as sa
+from sqlalchemy import create_engine
 import time
 import random
 from datetime import datetime
@@ -10,7 +10,7 @@ import os
 
 mode_key = os.getenv('FLASK_CONFIG') or 'dev'
 db_url = mode[mode_key].SQLALCHEMY_DATABASE_URI
-engine = sa.create_engine(db_url)
+engine = create_engine(db_url)
 
 
 def get_book_id(book_url):
@@ -63,9 +63,9 @@ def get_book_data(book_id):
 
 # 取得資料庫所有書籍不重複id
 def get_update_list_from_db():
-    with engine.begin() as conn:
-        book_ids=conn.execute('select DISTINCT book_id from books')
-        book_id_list= [ book_id[0] for book_id in book_ids ]
+    with engine.connect() as conn:
+        book_ids=conn.execute('select DISTINCT book_id as id from books')
+        book_id_list= [ book['id'] for book in book_ids ]
     return book_id_list
 
 def update_book_data(book_id):
