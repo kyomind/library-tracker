@@ -62,7 +62,7 @@ def user(name):
     form=AddBookForm()
 
     with engine.begin() as conn:
-        result=conn.execute('select COUNT(DISTINCT book_id) from books where user_id=1')
+        result=conn.execute('select COUNT(DISTINCT book_id) from books where user_id=$1', current_user.id)
         for i in result:
             count=i[0]
     # count=Book.query.filter_by(user_id=current_user.id).distinct().count()

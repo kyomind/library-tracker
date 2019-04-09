@@ -12,6 +12,7 @@ mode_key = os.getenv('FLASK_CONFIG') or 'dev'
 db_url = mode[mode_key].SQLALCHEMY_DATABASE_URI
 engine = sa.create_engine(db_url)
 
+
 def get_book_id(book_url):
     url=book_url.split('&')[0]
     book_id=url.split('=')[1]
