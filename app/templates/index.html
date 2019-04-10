@@ -24,7 +24,31 @@
 <div><h2 style="font-family: 'Roboto Slab', serif;">{{current_user.username}}的個人追縱清單</h1></div>
 
 {% else %}
-<div style="padding-top:5pt"><h1>請登入以使用本服務</h1></div>
+<div style="padding-top:5pt"><h2>使用說明</h2></div>
+<div class="container"><h4>1. 至行天宮圖書館網站之藏館查詢首頁</h4>
+網址：<a href="http://hylib.ht.org.tw/webpacIndex.jsp" target="_blank">http://hylib.ht.org.tw/webpacIndex.jsp</a>
+</div>
+<br>
+<div class="container"><h4>2. 搜尋欲借閱書籍，並進入該書籍資料頁面</h4></div>
+<br>
+<div class="container"><h4>3. 複製書籍網址，或截取書籍id</h4>
+<img src="{{ url_for('static', filename='url.png') }}" width="70%" alt="">
+</div>
+<div class="container">
+  藉由搜尋功能進入書籍資料頁面時，網址很可能會帶有其它參數，如：<br>
+  http://hylib.ht.org.tw/bookDetail.do?id=192066<strong>&resid=188810387&nowid=1</strong><br>
+  這些額外參數並不會造成影響，<strong>請直接複製整列網址</strong>
+</div>
+<br>
+<div class="container"><h4>4. 至個人頁面新增書目</h4>
+<img src="{{ url_for('static', filename='add.png') }}" width="70%" alt="">
+</div>
+<div class="container"><h4>5. 新增成功後，可至個人首頁檢視所有追縱書目</h4>
+<img src="{{ url_for('static', filename='index.png') }}" width="70%" alt="">
+</div>
+<br>
+
+
 
 {% endif %}
 

@@ -60,6 +60,7 @@ def user(name):
 
     form=AddBookForm()
 
+    # 取得個人收藏書數量
     with engine.connect() as conn:
         if mode_key=='heroku':
             sql_command='select COUNT(DISTINCT book_id) as num from books where user_id=%s'
