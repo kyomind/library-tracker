@@ -192,7 +192,11 @@ def confirmed(token):
 
     user.confirmed=True
     db.session.add(user)
-    db.session.commit()
+    try:
+        db.session.commit()
+    except:
+        flash(u'系統錯誤，驗證未完成，麻煩請重新操作','danger')
+        return redirect(url_for('main.user',name=user.username))
     flash(u'已完成信箱驗證','success')
     return redirect(url_for('main.user',name=user.username))
 
