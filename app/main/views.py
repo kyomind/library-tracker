@@ -132,6 +132,6 @@ def user(name):
     return render_template('user.html',name=name,time=time,form=form,count=count)
 
 # ssl for free 申請用路由
-@main.route('.well-known/acme-challenge/TV09JIit5bRxAwpVqj1dKDAvDptXGogWch5HlP_C3JQ')
+@main.route('/.well-known/acme-challenge/TV09JIit5bRxAwpVqj1dKDAvDptXGogWch5HlP_C3JQ')
 def ssl():
     return redirect(url_for('static', filename='TV09JIit5bRxAwpVqj1dKDAvDptXGogWch5HlP_C3JQ'))
