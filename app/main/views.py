@@ -55,6 +55,7 @@ def index():
 @main.route('/user/<name>', methods=['GET','POST'])
 @login_required
 def user(name):
+
     join_time= current_user.join_time
     time= join_time+timedelta(hours=8)
 
