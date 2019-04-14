@@ -98,7 +98,7 @@ def update_book_data(book_id):
         sql_command='UPDATE books SET status=?, reservation=?, \
         update_time=? WHERE book_id=? AND copy=?'
 
-    # 使用SQLite時，同時寫入常常lock，故設計寫入失敗後延時寫入
+    # 使用SQLite時，同時寫入常常lock，故設計寫入失敗時延時寫入
     # 每一本書最多嘗試寫入6次，嘗試間隔從20秒起依次數增加至40秒
     interval=20
     for book in books:
@@ -121,6 +121,8 @@ def update_book_data(book_id):
 
 if __name__ == "__main__":
     book_id_list=get_update_list_from_db()
+    print('---')
+    print('◆開始更新')
     print(book_id_list)
     print(f'共有 {len(book_id_list)} 本書')
     if len(book_id_list) == 0:
@@ -139,7 +141,8 @@ if __name__ == "__main__":
                 break
             continue
         print('本書更新完成')
-        time.sleep(random.uniform(3.14159, 16.18033))
+        time.sleep(random.uniform(5, 15))
+    print('結束更新◆')
 
 
 

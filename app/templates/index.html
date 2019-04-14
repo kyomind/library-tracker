@@ -95,7 +95,15 @@
       <td>{{ book[1].call_number }}</td>
       <td>{{ book[1].data_type }}</td>
       <td>{{ book[1].status }}</td>
-      <td>{{ book[1].reservation }}</td>
+      {% if book[1].reservation=='不可預約' %}
+        <td><span style="color: rgb(185, 185, 185)">{{ book[1].reservation }}</span></td>
+      {% else %}
+        {% if book[1].reservation[0] == '0' %}
+          <td>{{ book[1].reservation }}</td>
+        {% else %}
+          <td><span style="color:red">{{ book[1].reservation }}</span></td>
+        {% endif %}
+      {% endif %}
       <td>{{ (book[1].update_time + delta).strftime("%m-%d %H:%M") }}</td>
     </tr>
   {% endfor %}
