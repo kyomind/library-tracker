@@ -92,6 +92,7 @@ celerybeat-schedule
 .venv
 .flaskenv
 env/
+wolf/
 venv/
 ENV/
 env.bak/
