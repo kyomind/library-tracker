@@ -21,7 +21,13 @@
             <h6 style="font-family: 'Roboto Slab', serif;">信箱：<strong>尚未填寫</strong>；可於「功能」選單新增</h6>
             {% endif %}
 
-            <h6 style="font-family: 'Roboto Slab', serif;">目前共收藏 {{count}}<span style="color: rgb(200, 200, 200)">/50</span> 本書</h6>
+            <h6 style="font-family: 'Roboto Slab', serif;">目前共收藏
+                {% if count < 50 %}
+                    {{count}}<span style="color: rgb(200, 200, 200)">/50</span>
+                {% else %}
+                    <span style="color: blue">{{count}}</span><span style="color: rgb(200, 200, 200)">/50</span>
+                {% endif %}
+                本書</h6>
     </div>
 </div>
 
