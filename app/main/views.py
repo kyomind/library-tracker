@@ -63,6 +63,7 @@ def user(name):
 
     # 取得個人收藏書數量
     with engine.connect() as conn:
+        # psycopg(heroku)和pymysql(GCP)必須使用%s佔位符
         if mode_key=='heroku' or mode_key=='deploy':
             sql_command='select COUNT(DISTINCT book_id) as num from books where user_id=%s'
         else:
@@ -71,10 +72,13 @@ def user(name):
         result=conn.execute(sql_command, current_user.id)
         for row in result:
             count=row['num']
-    # count=Book.query.filter_by(user_id=current_user.id).distinct().count()
-    # count=Book.query.filter_by(user_id=current_user.id).group_by(Book.book_id).count()
    
     if form.validate_on_submit():
+        if count >= 50:
+            flash(u'新增失敗：收藏數量已達上限50本','danger')
+            return redirect(url_for('main.user',name=name))
+
+        # 欄位關係檢查
         if form.book_url.data and form.book_id.data:
             flash(u'請擇一輸入','danger')
             return redirect(url_for('main.user',name=name))
@@ -87,6 +91,7 @@ def user(name):
             return redirect(url_for('main.user',name=name))
 
         # 同一本書對「同一使用者」不能重複加入
+
         # 如果資料庫已經「至少有一本」該本書
         if Book.query.filter_by(book_id=book_id).first():
             # 調出該書的全部條目
@@ -95,11 +100,11 @@ def user(name):
             # 遍歷查詢每一本是否為目前使用者持有
             for book in same_books:
                 if book.user_id==current_user.id:
-                    flash(u'你已收藏本書，無法新增','danger')
+                    flash(u'新增失敗：你已收藏本書','danger')
                     return redirect(url_for('main.user',name=name))
                 last_user_id=book.user_id
 
-            # 為了節省圖書館伺服器資源，要從資料庫複製已有的資料
+            # 節省圖書館伺服器資源，從資料庫複製已有的資料
             copy_books= Book.query.filter_by(book_id=book_id, user_id=last_user_id).all()
             for book in copy_books:
                 data = Book(book_name=book.book_name, book_id=book.book_id,
@@ -116,7 +121,7 @@ def user(name):
         try:
             books=get_book_data(book_id)
         except:
-            flash(u'新增失敗，查無此id之書籍','danger')
+            flash(u'新增失敗：查無此id之書籍','danger')
             return redirect(url_for('main.user',name=name))
 
         for book in books:
@@ -132,7 +137,7 @@ def user(name):
 
     return render_template('user.html',name=name,time=time,form=form,count=count)
 
-# ssl for free 申請用路由
-@main.route('/.well-known/acme-challenge/TV09JIit5bRxAwpVqj1dKDAvDptXGogWch5HlP_C3JQ')
+# ssl for free 申請用路由(驗證字串已變更)
+@main.route('/.well-known/acme-challenge/TV09JIit5bRxAwpVqj1dKDAvDptXGogWch5HlP')
 def ssl():
-    return redirect(url_for('static', filename='TV09JIit5bRxAwpVqj1dKDAvDptXGogWch5HlP_C3JQ'))
+    return redirect(url_for('static', filename='TV09JIit5bRxAwpVqj1dKDAvDptXGogWch5HlP'))
