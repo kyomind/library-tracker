@@ -1,14 +1,14 @@
+import os
+import random
 import requests
+import time
 from bs4 import BeautifulSoup
 from config import mode
 from sqlalchemy import create_engine
-import time
-import random
 from datetime import datetime
-import os
 
 
-mode_key = os.getenv('FLASK_CONFIG') or 'dev'
+mode_key = os.getenv('FLASK_CONFIG') or 'deploy'
 db_url = mode[mode_key].SQLALCHEMY_DATABASE_URI
 engine = create_engine(db_url)
 
@@ -61,13 +61,14 @@ def get_book_data(book_id):
         books.append(book)
     return books
 
-# 取得資料庫所有書籍不重複id
+# 取得資料庫所有書籍不重複id，輸出為待更新清單
 def get_update_list_from_db():
     with engine.connect() as conn:
         book_ids=conn.execute('select DISTINCT book_id as id from books')
         book_id_list= [ book['id'] for book in book_ids ]
     return book_id_list
 
+# 更新單一本書
 def update_book_data(book_id):
     table=get_book_table(book_id)
     
@@ -90,13 +91,15 @@ def update_book_data(book_id):
     
     conn = engine.connect()
 
-    if mode_key=='heroku':
+    if mode_key=='heroku' or mode_key=='deploy':
         sql_command='UPDATE books SET status=%s, reservation=%s, \
         update_time=%s WHERE book_id=%s AND copy=%s'
     else:
         sql_command='UPDATE books SET status=?, reservation=?, \
         update_time=? WHERE book_id=? AND copy=?'
 
+    # 使用SQLite時，同時寫入常常lock，故設計寫入失敗後延時寫入
+    # 每一本書最多嘗試寫入6次，嘗試間隔從20秒起依次數增加至40秒
     interval=20
     for book in books:
         while True:
@@ -124,7 +127,7 @@ if __name__ == "__main__":
         print('資料庫無任何書籍')
     error_count=0
     for book_id in book_id_list:
-        print('開始寫入',book_id)
+        print('開始寫入', book_id)
         try:
             update_book_data(book_id)
         except BaseException as err:
@@ -135,7 +138,7 @@ if __name__ == "__main__":
                 print('書籍更新失敗達3次，中止更新')
                 break
             continue
-        print('本書完成')
+        print('本書更新完成')
         time.sleep(random.uniform(3.14159, 16.18033))
 
 
