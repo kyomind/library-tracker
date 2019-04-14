@@ -34,7 +34,10 @@
 <body>
     {% block navbar %}
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <img src="{{ url_for('static', filename='seed.png') }}" width="30" height="30" class="d-inline-block align-top" alt="">
+        <a href="{{ url_for('main.index') }}" >
+          <img src="{{ url_for('static', filename='seed.png') }}" width="30" height="30" class="d-inline-block align-top" alt="">
+        </a>
+
         
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
