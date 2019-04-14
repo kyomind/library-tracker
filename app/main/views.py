@@ -63,13 +63,12 @@ def user(name):
 
     # 取得個人收藏書數量
     with engine.connect() as conn:
-        if mode_key=='heroku':
+        if mode_key=='heroku' or mode_key=='deploy':
             sql_command='select COUNT(DISTINCT book_id) as num from books where user_id=%s'
         else:
             sql_command='select COUNT(DISTINCT book_id) as num from books where user_id=?'
 
-        result=conn.execute(sql_command, (current_user.id,))
-        # result=conn.execute(sql_command, current_user.id)
+        result=conn.execute(sql_command, current_user.id)
         for row in result:
             count=row['num']
     # count=Book.query.filter_by(user_id=current_user.id).distinct().count()
