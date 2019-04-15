@@ -7,7 +7,7 @@ from wtforms.validators import DataRequired,URL,Regexp,Optional
 class AddBookForm(FlaskForm):
     book_url=StringField('請輸入書目網址',validators=[Optional(),
     URL(message='非正確網址格式'),
-    Regexp(r'http://hylib.ht.org.tw/bookDetail.do\?id=[1-9]+\d{,5}&?.*$',
+    Regexp(r'.*[?&]id=[1-9]+\d{,5}',
         message='網址非行天宮圖書館書目網址，或id格式有誤')])
 
     book_id=StringField('請輸入書目id',validators=[Optional(),

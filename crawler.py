@@ -4,8 +4,9 @@ import requests
 import time
 from bs4 import BeautifulSoup
 from config import mode
-from sqlalchemy import create_engine
 from datetime import datetime
+from re import findall
+from sqlalchemy import create_engine
 
 
 mode_key = os.getenv('FLASK_CONFIG') or 'deploy'
@@ -14,8 +15,8 @@ engine = create_engine(db_url)
 
 
 def get_book_id(book_url):
-    url=book_url.split('&')[0]
-    book_id=url.split('=')[1]
+    book_id_part=findall(r'[?&]id=[1-9]+\d{,5}', book_url)
+    book_id=book_id_part[0].split('=')[1]
     return book_id
 
 def get_book_name(book_id):
