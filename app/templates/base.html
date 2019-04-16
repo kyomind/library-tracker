@@ -24,11 +24,15 @@
         return false;} 
         } 
     </script>
+
+    {% block css %}{% endblock %}
+
     <style>
     body {
-	font-family:'微軟正黑體','Microsoft JhengHei',sans-serif,serif;}
+	    font-family:'微軟正黑體','Microsoft JhengHei',sans-serif,serif;
+    }
+
     </style>
-    
     <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
@@ -120,14 +124,6 @@
 
     </div>
     {% endblock %}
-
-
-
-
-
-
-
-
-
+<br>
 </body>
 </html>
