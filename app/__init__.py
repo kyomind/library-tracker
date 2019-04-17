@@ -6,10 +6,10 @@ from flask_mail import Mail
 from config import mode
 
 
-db=SQLAlchemy()
-mylogin=LoginManager()
-migrate=Migrate()
-mail=Mail()
+db = SQLAlchemy()
+mylogin = LoginManager()
+migrate = Migrate()
+mail = Mail()
 
 
 def create_app(mode_key):
@@ -22,14 +22,14 @@ def create_app(mode_key):
     migrate.init_app(app, db)
     mail.init_app(app)
 
-    from app.main import main as main_blueprint
-    app.register_blueprint(main_blueprint)
+    from app.main import main
+    app.register_blueprint(main)
 
-    from app.auth import auth as auth_blueprint
-    app.register_blueprint(auth_blueprint, url_prefix='/auth')
+    from app.auth import auth
+    app.register_blueprint(auth, url_prefix='/auth')
 
     if app.config['SSL_REDIRECT']:
         from flask_sslify import SSLify
         sslify = SSLify(app)
-
+    
     return app
