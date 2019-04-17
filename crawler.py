@@ -1,5 +1,5 @@
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 import random
 from re import findall
 import time
@@ -118,6 +118,7 @@ def update_book_data(book_id):
 if __name__ == "__main__":
     book_id_list = get_update_list_from_db()
     print('---')
+    print((datetime.utcnow() + timedelta(hours=8)).strftime("%m-%d %H:%M"))
     print('◆開始更新')
     print(book_id_list)
     print(f'共有 {len(book_id_list)} 本書')
