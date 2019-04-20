@@ -131,7 +131,7 @@ if __name__ == "__main__":
             update_book_data(book_id)
         except BaseException as err:
             print(err)
-            print('本書更新失敗',f'book_id={book_id}')
+            print('本書更新失敗', f'book_id={book_id}')
             error_count = error_count + 1
             if error_count > 2:
                 print('書籍更新失敗達3次，中止更新')
@@ -140,3 +140,4 @@ if __name__ == "__main__":
         print('本書更新完成')
         time.sleep(random.uniform(5, 15))
     print('結束更新◆')
+    print((datetime.utcnow() + timedelta(hours=8)).strftime("%m-%d %H:%M"))
