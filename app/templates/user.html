@@ -4,24 +4,24 @@
 
 {% block page_content %}
 
-<div class="card" style="width: 24rem;margin:10px 0px 10px 0px">
+<div class="card" style="width: 24rem;margin:10px 0px 10px 0px; font-family: 'Roboto Slab','微軟正黑體','Microsoft JhengHei',sans-serif">
     <img src="{{ url_for('static', filename='flower.jpg') }}" class="card-img-top" alt="...">
     <div class="card-body">
        
-            <h6 style="font-family: 'Roboto Slab', serif;">加入時間：{{ time.strftime("%Y-%m-%d") }}</h6>
+            <h6>加入時間：{{ time.strftime("%Y-%m-%d") }}</h6>
 
             {% if current_user.email %}
-            <h6 style="font-family: 'Roboto Slab', serif;">信箱：{{ current_user.email }}
+            <h6>信箱：{{ current_user.email }}
                 {% if current_user.confirmed %}
                 <span class="badge badge-success" style="font-size: 10pt;margin-left: 3pt">已驗證</span></h6>
                 {% else %}
                 <span class="badge badge-secondary" style="font-size: 10pt;margin-left: 3pt">未驗證</span></h6>
                 {% endif %}
             {% else %}
-            <h6 style="font-family: 'Roboto Slab', serif;">信箱：<strong>尚未填寫</strong>；可於「功能」選單新增</h6>
+            <h6>信箱：<strong>尚未填寫</strong>；可於「功能」選單新增</h6>
             {% endif %}
 
-            <h6 style="font-family: 'Roboto Slab', serif;">目前共收藏
+            <h6>目前共收藏
                 {% if count < 50 %}
                     {{count}}<span style="color: rgb(200, 200, 200)">/50</span>
                 {% else %}
@@ -33,7 +33,7 @@
 
 
 <h3 style="font-family: 'Roboto Slab', serif;margin-bottom: 0px">Add Books</h3>
-<div style="font-family: 'Roboto Slab', serif; color: rgb(155, 155, 155); margin-bottom: 10px">請「擇一輸入」書目網址或書目id </div>
+<div style="font-family: 'Roboto Slab','微軟正黑體','Microsoft JhengHei',sans-serif; color: rgb(155, 155, 155); margin-bottom: 10px">請「擇一輸入」書目網址或書目id </div>
 <form action="" method="post">
         {{ form.hidden_tag() }}
     <p>
@@ -44,7 +44,7 @@
         {% endfor %}
     </p>
     <p>
-        <label for="book_id" style="font-family: 'Roboto Slab', serif;">請輸入書目id</label>
+        <label for="book_id" style="font-family: 'Roboto Slab','微軟正黑體','Microsoft JhengHei',sans-serif">請輸入書目id</label>
         <input id="book_id" name="book_id" type="text" value="" class="form-control custom-control-inline form-control-sm w-25">
         {% for error in form.book_id.errors %}
             <span style="color: red;">[{{ error }}]</span>
