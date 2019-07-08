@@ -123,3 +123,7 @@ def user(name):
 @main.route('/.well-known/acme-challenge/TV09JIit5bRxAwpVqj1dKDAvDptXGogWch5HlP')
 def ssl():
     return redirect(url_for('static', filename='TV09JIit5bRxAwpVqj1dKDAvDptXGogWch5HlP'))
+
+@main.route('/watch')
+def watch():
+    return render_template('watch.html')
