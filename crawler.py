@@ -1,11 +1,13 @@
 import os
-from datetime import datetime, timedelta
 import random
-from re import findall
 import time
-from bs4 import BeautifulSoup
+from datetime import datetime, timedelta
+from re import findall
+
 import requests
+from bs4 import BeautifulSoup
 from sqlalchemy import create_engine
+
 from config import mode
 
 
