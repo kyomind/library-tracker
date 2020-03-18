@@ -1,6 +1,8 @@
 from datetime import timedelta
+
 from flask import render_template, redirect, url_for, flash
 from flask_login import current_user, login_required
+
 from app import db
 from app.main import main
 from app.main.forms import AddBookForm, DeleteBookForm
@@ -117,13 +119,3 @@ def user(name):
         flash(u'新增成功！書名：{}'.format(book[0]), 'success')
         return redirect(url_for('main.user', name=name))
     return render_template('user.html', name=name, time=time, form=form, count=count)
-
-
-# ssl for free 申請用路由(驗證字串已變更)
-@main.route('/.well-known/acme-challenge/TV09JIit5bRxAwpVqj1dKDAvDptXGogWch5HlP')
-def ssl():
-    return redirect(url_for('static', filename='TV09JIit5bRxAwpVqj1dKDAvDptXGogWch5HlP'))
-
-@main.route('/watch')
-def watch():
-    return render_template('watch.html')
