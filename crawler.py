@@ -89,7 +89,7 @@ def update_book_data(book_id):
         books.append(book_dict)
 
     conn = engine.connect()
-    if mode_key == 'heroku' or mode_key == 'deploy':
+    if mode_key == 'heroku':
         sql_command = 'UPDATE books SET status=%s, reservation=%s, \
         update_time=%s WHERE book_id=%s AND copy=%s'
     else:

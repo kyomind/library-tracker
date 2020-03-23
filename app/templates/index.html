@@ -1,64 +1,61 @@
 {% extends 'base.html' %}
 
-{% block title %}Library Tracker{% endblock %}
+{% block title %} Library Tracker {% endblock %}
 
 {% block js %}
-<script> 
-    function del() { 
-     var msg = "確定要刪除嗎？"; 
-     if (confirm(msg)==true){ 
-      return true; 
-     }else{ 
-      return false; 
-     } 
-    } 
-</script> 
+<script>
+	function del() {
+		var msg = "確定要刪除嗎？";
+		if (confirm(msg) == true) {
+			return true;
+		} else {
+			return false;
+		}
+	} 
+</script>
 {% endblock %}
-
-{% block css %}
-<style>
-.step{
-  background-color:#f2eee0;
-  font-family: 'Roboto Slab','微軟正黑體','Microsoft JhengHei',sans-serif;
-  padding: 10px 15px 15px 15px;
-  border-radius: 6px;
-}
-div img{
-	border-radius: 6px;
-}
-</style>
-{% endblock %}
-
 
 {% block page_content %}
 
 {% if current_user.is_authenticated %}
-<div><h2 style="font-family: 'Roboto Slab','微軟正黑體','Microsoft JhengHei',sans-serif;">{{current_user.username}}的個人追縱清單</h1></div>
+<div>
+	<h2 style="font-family: 'Roboto Slab','微軟正黑體','Microsoft JhengHei',sans-serif;">{{current_user.username}}的個人追縱清單
+		</h1>
+</div>
 {% else %}
-<div style="padding-top:5pt"><h2>使用說明</h2></div>
+<div style="padding-top:5pt">
+	<h2>使用說明</h2>
+</div>
 
-<div class="step"><h4>1. 至行天宮圖書館網站之藏館查詢首頁</h4>
-網址：<a href="http://hylib.ht.org.tw/webpacIndex.jsp" target="_blank">http://hylib.ht.org.tw/webpacIndex.jsp</a>
+<div class="step">
+	<h4>1. 至行天宮圖書館網站之藏館查詢首頁</h4>
+	網址：<a href="http://hylib.ht.org.tw/webpacIndex.jsp" target="_blank">http://hylib.ht.org.tw/webpacIndex.jsp</a>
 </div>
 <br>
-<div class="step" style="padding-bottom: 7px"><h4>2. 搜尋欲借閱書籍，並進入該書籍資料頁面</h4></div>
+<div class="step" style="padding-bottom: 7px">
+	<h4>2. 搜尋欲借閱書籍，並進入該書籍資料頁面</h4>
+</div>
 <br>
-<div class="step"><h4>3. 複製書籍網址，或截取書籍id</h4>
-<img src="{{ url_for('static', filename='url.png') }}" width="70%" alt="">
+<div class="step">
+	<h4>3. 複製書籍網址，或截取書籍id</h4>
+	<img src="{{ url_for('static', filename='url.png') }}" width="70%" alt="">
 
-  <div style="color: rgb(155, 155, 155); margin: 10px 0px 0px 0px">
-    藉由搜尋功能進入書籍資料頁面時，網址很可能會帶有其它參數，如：<br>
-    <span style="color:#5ca0d3" >http://hylib.ht.org.tw/bookDetail.do?id=192066<strong >&resid=188810387&nowid=1</strong></span><br>
-    這些額外參數並不會造成影響，請直接複製<span style="color:#5ca0d3" >整列網址</span>
-  </div>
+	<div style="color: rgb(155, 155, 155); margin: 10px 0px 0px 0px">
+		藉由搜尋功能進入書籍資料頁面時，網址很可能會帶有其它參數，如：<br>
+		<span
+			style="color:#5ca0d3">http://hylib.ht.org.tw/bookDetail.do?id=192066<strong>&resid=188810387&nowid=1</strong></span><br>
+		這些額外參數並不會造成影響，請直接複製<span style="color:#5ca0d3">整列網址</span>
+	</div>
 </div>
 <br>
-<div class="step"><h4>4. 至個人頁面新增書目</h4>
-<img src="{{ url_for('static', filename='add.png') }}" width="70%" alt="">
+<div class="step">
+	<h4>4. 至個人頁面新增書目</h4>
+	<img src="{{ url_for('static', filename='add.png') }}" width="70%" alt="">
 </div>
 <br>
-<div class="step"><h4>5. 新增成功後，可至個人首頁檢視所有追縱書目</h4>
-<img src="{{ url_for('static', filename='index.png') }}" width="100%" alt="">
+<div class="step">
+	<h4>5. 新增成功後，可至個人首頁檢視所有追縱書目</h4>
+	<img src="{{ url_for('static', filename='index.png') }}" width="100%" alt="">
 </div>
 <br>
 
@@ -70,57 +67,58 @@ div img{
 {% if current_user.is_authenticated %}
 
 <table class="table table-striped">
-  <thead class="thead-dark">
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">書名 (ID)</th>
-      <th scope="col">條碼號</th>
-      <th scope="col">館藏地/室</th>
-      <th scope="col">索書號</th>
-      <th scope="col">資料類型</th>
-      <th scope="col">目前狀態</th>
-      <th scope="col">預約</th>
-      <th scope="col">更新時間</th>
-    </tr>
-  </thead>
-  <tbody>
-  {% for book in books %}
-    <tr>
-      {% if book[1].copy=='1' %}
-      <th scope="row">{{ book[0] }}</th>
-      {% else %}
-      <th scope="row"> </th>
-      {% endif %}
-      <td>{{ book[1].book_name }} <span style="color: rgb(155, 155, 155);padding-right:3px">{{ book[1].book_id }}</span>
+	<thead class="thead-dark">
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">書名 (ID)</th>
+			<th scope="col">條碼號</th>
+			<th scope="col">館藏地/室</th>
+			<th scope="col">索書號</th>
+			<th scope="col">資料類型</th>
+			<th scope="col">目前狀態</th>
+			<th scope="col">預約</th>
+			<th scope="col">更新時間</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for book in books %}
+		<tr>
+			{% if book[1].copy=='1' %}
+			<th scope="row">{{ book[0] }}</th>
+			{% else %}
+			<th scope="row"> </th>
+			{% endif %}
+			<td>{{ book[1].book_name }} <span
+					style="color: rgb(155, 155, 155);padding-right:3px">{{ book[1].book_id }}</span>
 
-        {% if book[1].copy=='1' %}
-        <form action="" method="post" style='display:inline;'>
-            {{ form.hidden_tag() }}
-            <input id="book_id" name="book_id" type="hidden" value="{{ book[1].book_id }}">
-            <input id="submit" name="submit" type="submit" value="刪除" class="btn btn-outline-dark btn-sm"
-            onclick="javascript:return del()">
-        </form>
-        {% endif %}
-      
-      </td>
-      <td>{{ book[1].barcode_id }}</td>
-      <td>{{ book[1].location }}</td>
-      <td>{{ book[1].call_number }}</td>
-      <td>{{ book[1].data_type }}</td>
-      <td>{{ book[1].status }}</td>
-      {% if book[1].reservation=='不可預約' %}
-        <td><span style="color: rgb(185, 185, 185)">{{ book[1].reservation }}</span></td>
-      {% else %}
-        {% if book[1].reservation[0] == '0' %}
-          <td>{{ book[1].reservation }}</td>
-        {% else %}
-          <td><span style="color:red">{{ book[1].reservation }}</span></td>
-        {% endif %}
-      {% endif %}
-      <td>{{ (book[1].update_time + delta).strftime("%m-%d %H:%M") }}</td>
-    </tr>
-  {% endfor %}
-  </tbody>
+				{% if book[1].copy=='1' %}
+				<form action="" method="post" style='display:inline;'>
+					{{ form.hidden_tag() }}
+					<input id="book_id" name="book_id" type="hidden" value="{{ book[1].book_id }}">
+					<input id="submit" name="submit" type="submit" value="刪除" class="btn btn-outline-dark btn-sm"
+						onclick="javascript:return del()">
+				</form>
+				{% endif %}
+
+			</td>
+			<td>{{ book[1].barcode_id }}</td>
+			<td>{{ book[1].location }}</td>
+			<td>{{ book[1].call_number }}</td>
+			<td>{{ book[1].data_type }}</td>
+			<td>{{ book[1].status }}</td>
+			{% if book[1].reservation=='不可預約' %}
+			<td><span style="color: rgb(185, 185, 185)">{{ book[1].reservation }}</span></td>
+			{% else %}
+			{% if book[1].reservation[0] == '0' %}
+			<td>{{ book[1].reservation }}</td>
+			{% else %}
+			<td><span style="color:red">{{ book[1].reservation }}</span></td>
+			{% endif %}
+			{% endif %}
+			<td>{{ (book[1].update_time + delta).strftime("%m-%d %H:%M") }}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
 </table>
 
 <br>
