@@ -72,7 +72,7 @@
             <th scope="col">#</th>
             <th scope="col">書名 (ID)</th>
             <th scope="col">條碼號</th>
-            <th scope="col">館藏地/室</th>
+            <th scope="col">館藏地</th>
             <th scope="col">索書號</th>
             <th scope="col">資料類型</th>
             <th scope="col">目前狀態</th>
@@ -86,7 +86,7 @@
             {% if book[1].copy=='1' %}
             <th scope="row">{{ book[0] }}</th>
             {% else %}
-            <th scope="row"> </th>
+            <th scope="row"></th>
             {% endif %}
 
             {% if book[1].status == '書在館' %}
@@ -106,17 +106,17 @@
 
             {% if book[1].status == '書在館' %}
             <td>{{ book[1].barcode_id }}</td>
-            <td>{{ book[1].location }}</td>
+            <td>{{ book[1].location[:4] }}</td>
             <td>{{ book[1].call_number }}</td>
-            <td>{{ book[1].data_type }}</td>
+            <td>{{ book[1].data_type.split('/')[0] }}</td>
             <td>{{ book[1].status }}</td>
             <td>{{ book[1].reservation }}</td>
             <td>{{ (book[1].update_time + delta).strftime("%m-%d %H:%M") }}</td>
             {% else %}
             <td class="font-gray">{{ book[1].barcode_id }}</td>
-            <td class="font-gray">{{ book[1].location }}</td>
+            <td class="font-gray">{{ book[1].location[:4] }}</td>
             <td class="font-gray">{{ book[1].call_number }}</td>
-            <td class="font-gray">{{ book[1].data_type }}</td>
+            <td class="font-gray">{{ book[1].data_type.split('/')[0] }}</td>
             <td class="font-gray">{{ book[1].status }}</td>
                 {% if book[1].reservation[0] == '0' %}
                 <td class="font-gray">{{ book[1].reservation }}</td>
