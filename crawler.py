@@ -141,5 +141,5 @@ if __name__ == "__main__":
             continue
         print('本書更新完成')
         time.sleep(random.uniform(5, 15))
-    print('結束更新◆')
+    print(f'結束更新 {len(book_id_list)} 本書')
     print((datetime.utcnow() + timedelta(hours=8)).strftime("%m-%d %H:%M"))
