@@ -8,9 +8,6 @@
     <link rel="shortcut icon" href="{{ url_for('static', filename='seed.png') }}" type="image/x-icon">
     <link href="https://fonts.googleapis.com/css?family=Germania+One|Roboto+Slab" rel="stylesheet"> 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-   
-    <script src="{{ url_for('static', filename='node_modules/jquery/dist/jquery.slim.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='node_modules/bootstrap/dist/js/bootstrap.bundle.js') }}"></script>
 
     {% block js %}{% endblock %}
     <script>   
@@ -116,6 +113,7 @@
     {% endblock %}
 <br>
 
-
+<script src="{{ url_for('static', filename='node_modules/jquery/dist/jquery.slim.min.js') }}"></script>
+<script src="{{ url_for('static', filename='node_modules/bootstrap/dist/js/bootstrap.bundle.js') }}"></script>
 </body>
 </html>
