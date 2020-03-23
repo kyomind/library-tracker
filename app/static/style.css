@@ -13,3 +13,8 @@ body {
 .font-gray {
     color: rgb(185, 185, 185);
 }
+
+.warning {
+    color: red;
+    font-weight: bold;
+}

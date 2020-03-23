@@ -88,9 +88,12 @@
             {% else %}
             <th scope="row"> </th>
             {% endif %}
-            <td>{{ book[1].book_name }} <span
-                    style="color: rgb(155, 155, 155);padding-right:3px">{{ book[1].book_id }}</span>
 
+            {% if book[1].status == '書在館' %}
+            <td><span class="mr-1">{{ book[1].book_name }}</span> 
+            {% else %}
+            <td class="font-gray"><span class="mr-1">{{ book[1].book_name }}</span> 
+            {% endif %}
                 {% if book[1].copy=='1' %}
                 <form action="" method="post" style='display:inline;'>
                     {{ form.hidden_tag() }}
@@ -106,25 +109,23 @@
             <td>{{ book[1].location }}</td>
             <td>{{ book[1].call_number }}</td>
             <td>{{ book[1].data_type }}</td>
+            <td>{{ book[1].status }}</td>
+            <td>{{ book[1].reservation }}</td>
+            <td>{{ (book[1].update_time + delta).strftime("%m-%d %H:%M") }}</td>
             {% else %}
             <td class="font-gray">{{ book[1].barcode_id }}</td>
             <td class="font-gray">{{ book[1].location }}</td>
             <td class="font-gray">{{ book[1].call_number }}</td>
             <td class="font-gray">{{ book[1].data_type }}</td>
-            {% endif %}
-
-            <td>{{ book[1].status }}</td>
-            
-            {% if book[1].reservation=='不可預約' %}
-            <td>{{ book[1].reservation }}</td>
-            {% else %}
+            <td class="font-gray">{{ book[1].status }}</td>
                 {% if book[1].reservation[0] == '0' %}
-                <td>{{ book[1].reservation }}</td>
+                <td class="font-gray">{{ book[1].reservation }}</td>
                 {% else %}
-                <td><span style="color:red">{{ book[1].reservation }}</span></td>
+                <td><span class="warning">{{ book[1].reservation }}</span></td>
                 {% endif %}
+            <td class="font-gray">{{ (book[1].update_time + delta).strftime("%m-%d %H:%M") }}</td>
             {% endif %}
-            <td>{{ (book[1].update_time + delta).strftime("%m-%d %H:%M") }}</td>
+         
         </tr>
         {% endfor %}
     </tbody>
