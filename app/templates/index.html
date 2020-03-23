@@ -121,7 +121,7 @@
                 {% if book[1].reservation[0] == '0' %}
                 <td class="font-gray">{{ book[1].reservation }}</td>
                 {% else %}
-                <td><span class="warning">{{ book[1].reservation }}</span></td>
+                <td><span class="font-red">{{ book[1].reservation }}</span></td>
                 {% endif %}
             <td class="font-gray">{{ (book[1].update_time + delta).strftime("%m-%d %H:%M") }}</td>
             {% endif %}
