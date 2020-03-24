@@ -16,3 +16,7 @@ body {
 .font-red {
     color: red;
 }
+
+.font-nav {
+    font-family: 'Nunito', sans-serif;
+}
