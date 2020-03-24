@@ -1,5 +1,5 @@
 body {
-    font-family:'微軟正黑體','Microsoft JhengHei',sans-serif,serif;
+    font-family:Lato, '微軟正黑體', 'Microsoft JhengHei', sans-serif;
 }
 
 .step {
@@ -8,7 +8,6 @@ body {
     padding: 10px 15px 15px 15px;
     border-radius: 6px;
 }
-
 
 .font-gray {
     color: rgb(185, 185, 185);
