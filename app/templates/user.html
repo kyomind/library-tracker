@@ -4,9 +4,11 @@
 
 {% block page_content %}
 
-<div class="card" style="width: 24rem;margin:10px 0px 10px 0px; font-family: 'Roboto Slab','微軟正黑體','Microsoft JhengHei',sans-serif">
+<div class="row">
+<div class="col-md-6">
+<div class="card">
     <img src="{{ url_for('static', filename='flower.jpg') }}" class="card-img-top" alt="...">
-    <div class="card-body">
+    <div class="card-body font-nav">
        
             <h6>加入時間：{{ time.strftime("%Y-%m-%d") }}</h6>
 
@@ -21,19 +23,20 @@
             <h6>信箱：<strong>尚未填寫</strong>；可於「功能」選單新增</h6>
             {% endif %}
 
-            <h6>目前共收藏
+            <!-- <h6>目前共收藏
                 {% if count < 50 %}
                     {{count}}<span style="color: rgb(200, 200, 200)">/50</span>
                 {% else %}
                     <span style="color: red">{{count}}</span><span style="color: rgb(200, 200, 200)">/50</span>
                 {% endif %}
-                本書</h6>
+                本書</h6> -->
     </div>
 </div>
+</div>
+</div>
 
-
-<h3 style="font-family: 'Roboto Slab', serif;margin-bottom: 0px">Add Books</h3>
-<div style="font-family: 'Roboto Slab','微軟正黑體','Microsoft JhengHei',sans-serif; color: rgb(155, 155, 155); margin-bottom: 10px">請「擇一輸入」書目網址或書目id </div>
+<h3 class="font-nav mt-3">Add Books</h3>
+<div class="font-nav font-gray mb-2" >請「擇一輸入」書目網址或書目id </div>
 <form action="" method="post">
         {{ form.hidden_tag() }}
     <p>
@@ -44,7 +47,7 @@
         {% endfor %}
     </p>
     <p>
-        <label for="book_id" style="font-family: 'Roboto Slab','微軟正黑體','Microsoft JhengHei',sans-serif">請輸入書目id</label>
+        <label for="book_id" class="font-nav">請輸入書目id</label>
         <input id="book_id" name="book_id" type="text" value="" class="form-control custom-control-inline form-control-sm w-25">
         {% for error in form.book_id.errors %}
             <span style="color: red;">[{{ error }}]</span>
