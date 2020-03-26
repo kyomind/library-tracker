@@ -68,12 +68,13 @@
                     {% endif %}
 
                     {% if current_user.confirmed %}
-                    <span class="dropdown-item" style="color: #CCCCCC">驗證信箱</span> 
+                    <span class="dropdown-item" style="color: #CCCCCC">驗證信箱(停用)</span> 
                     {% else %}
                         {% if current_user.email %}
-                        <a class="dropdown-item" href="{{ url_for('auth.confirm')}}">驗證信箱</a>
+                        <!-- <a class="dropdown-item" href="{{ url_for('auth.confirm')}}">驗證信箱</a> -->
+                        <span class="dropdown-item" style="color: #CCCCCC">驗證信箱(停用)</span> 
                         {% else %}
-                        <span class="dropdown-item" style="color: #CCCCCC">驗證信箱</span> 
+                        <span class="dropdown-item" style="color: #CCCCCC">驗證信箱(停用)</span> 
                         {% endif %}
                     {% endif %}
 
