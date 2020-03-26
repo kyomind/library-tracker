@@ -20,3 +20,7 @@ body {
 .font-nav {
     font-family: 'Nunito', sans-serif;
 }
+
+.font-blue {
+    color: DodgerBlue;
+}

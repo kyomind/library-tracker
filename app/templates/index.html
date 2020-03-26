@@ -42,9 +42,14 @@
                 {% endif %}
     
                 {% if book[1].status == '書在館' %}
-                <td><span class="mr-1">{{ book[1].book_name }}</span> 
+                <td><span class="mr-1">{{ book[1].book_name.split(':')[0] }}
+                    {% if book[1].book_name.split(':')[1] %}   
+                    <br><span class="font-blue">
+                        {{ book[1].book_name.split(':')[1] }}</span>
+                    {% endif %}
+                    </span> 
                 {% else %}
-                <td class="font-gray"><span class="mr-1">{{ book[1].book_name }}</span> 
+                <td class="font-gray"><span class="mr-1">{{ book[1].book_name.split(':')[0] }}</span> 
                 {% endif %}
                     {% if book[1].copy=='1' %}
                     <form action="" method="post" style='display:inline;'>
