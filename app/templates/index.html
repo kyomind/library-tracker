@@ -18,75 +18,75 @@
 {% block page_content %}
 
 {% if current_user.is_authenticated %}
-    <table class="table table-striped mb-3">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">書名</th>
-                <th scope="col">條碼號</th>
-                <th scope="col" class="text-nowrap">館藏</th>
-                <th scope="col">索書號</th>
-                <th scope="col" class="text-nowrap">類型</th>
-                <th scope="col">目前狀態</th>
-                <th scope="col" class="text-nowrap">預約</th>
-                <th scope="col">更新</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for book in books %}
-            <tr>
-                {% if book[1].copy=='1' %}
-                <th scope="row">{{ book[0] }}</th>
-                {% else %}
-                <th scope="row"></th>
-                {% endif %}
-    
-                {% if book[1].status == '書在館' %}
-                <td><span class="mr-1">{{ book[1].book_name.split(':')[0] }}
-                    {% if book[1].book_name.split(':')[1] %}   
+<table class="table table-striped mb-3">
+    <thead class="thead-dark">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">書名</th>
+            <th scope="col">條碼號</th>
+            <th scope="col" class="text-nowrap">館藏</th>
+            <th scope="col">索書號</th>
+            <th scope="col" class="text-nowrap">類型</th>
+            <th scope="col">目前狀態</th>
+            <th scope="col" class="text-nowrap">預約</th>
+            <th scope="col">更新</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for book in books %}
+        <tr>
+            {% if book[1].copy=='1' %}
+            <th scope="row">{{ book[0] }}</th>
+            {% else %}
+            <th scope="row"></th>
+            {% endif %}
+
+            {% if book[1].status == '書在館' %}
+            <td><span class="mr-1">{{ book[1].book_name.split(':')[0] }}
+                    {% if book[1].book_name.split(':')[1] %}
                     <br><span class="font-blue">
                         {{ book[1].book_name.split(':')[1] }}</span>
                     {% endif %}
-                    </span> 
+                </span>
                 {% else %}
-                <td class="font-gray"><span class="mr-1">{{ book[1].book_name.split(':')[0] }}</span> 
+            <td class="font-gray"><span class="mr-1">{{ book[1].book_name.split(':')[0] }}</span>
                 {% endif %}
-                    {% if book[1].copy=='1' %}
-                    <form action="" method="post" style='display:inline;'>
-                        {{ form.hidden_tag() }}
-                        <input id="book_id" name="book_id" type="hidden" value="{{ book[1].book_id }}">
-                        <input id="submit" name="submit" type="submit" value="刪除" class="btn btn-outline-dark btn-sm"
-                            onclick="javascript:return del()">
-                    </form>
-                    {% endif %}
-                </td>
-    
-                {% if book[1].status == '書在館' %}
-                <td>{{ book[1].barcode_id }}</td>
-                <td>{{ book[1].location[:4] }}</td>
-                <td>{{ book[1].call_number }}</td>
-                <td>{{ book[1].data_type.split('/')[0] }}</td>
-                <td>{{ book[1].status }}</td>
-                <td>{{ book[1].reservation }}</td>
-                <td>{{ (book[1].update_time + delta).strftime("%m-%d %H:%M") }}</td>
-                {% else %}
-                <td class="font-gray">{{ book[1].barcode_id }}</td>
-                <td class="font-gray">{{ book[1].location[:4] }}</td>
-                <td class="font-gray">{{ book[1].call_number }}</td>
-                <td class="font-gray">{{ book[1].data_type.split('/')[0] }}</td>
-                <td class="font-gray">{{ book[1].status }}</td>
-                    {% if book[1].reservation[0] == '0' %}
-                    <td class="font-gray">{{ book[1].reservation }}</td>
-                    {% else %}
-                    <td><span class="font-red">{{ book[1].reservation }}</span></td>
-                    {% endif %}
-                <td class="font-gray">{{ (book[1].update_time + delta).strftime("%m-%d %H:%M") }}</td>
+                {% if book[1].copy=='1' %}
+                <form action="" method="post" style='display:inline;'>
+                    {{ form.hidden_tag() }}
+                    <input id="book_id" name="book_id" type="hidden" value="{{ book[1].book_id }}">
+                    <input id="submit" name="submit" type="submit" value="刪除" class="btn btn-outline-dark btn-sm"
+                        onclick="javascript:return del()">
+                </form>
                 {% endif %}
-             
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+            </td>
+
+            {% if book[1].status == '書在館' %}
+            <td>{{ book[1].barcode_id }}</td>
+            <td>{{ book[1].location[:4] }}</td>
+            <td>{{ book[1].call_number }}</td>
+            <td>{{ book[1].data_type.split('/')[0] }}</td>
+            <td>{{ book[1].status }}</td>
+            <td>{{ book[1].reservation }}</td>
+            <td>{{ (book[1].update_time + delta).strftime("%m-%d %H:%M") }}</td>
+            {% else %}
+            <td class="font-gray">{{ book[1].barcode_id }}</td>
+            <td class="font-gray">{{ book[1].location[:4] }}</td>
+            <td class="font-gray">{{ book[1].call_number }}</td>
+            <td class="font-gray">{{ book[1].data_type.split('/')[0] }}</td>
+            <td class="font-gray">{{ book[1].status }}</td>
+            {% if book[1].reservation[0] == '0' %}
+            <td class="font-gray">{{ book[1].reservation }}</td>
+            {% else %}
+            <td><span class="font-red">{{ book[1].reservation }}</span></td>
+            {% endif %}
+            <td class="font-gray">{{ (book[1].update_time + delta).strftime("%m-%d %H:%M") }}</td>
+            {% endif %}
+
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 
 
 {% else %}
@@ -107,7 +107,7 @@
     <h4>3. 複製書籍網址，或截取書籍id</h4>
     <div class="row">
         <div class="col-md-8 mt-2">
-            <img src="{{ url_for('static', filename='url.png') }}" width="100%" alt="">  
+            <img src="{{ url_for('static', filename='url.png') }}" width="100%" alt="">
         </div>
     </div>
     <div class="row">

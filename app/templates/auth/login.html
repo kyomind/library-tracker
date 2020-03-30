@@ -9,28 +9,36 @@
 
 
 
-<h1 style="font-family: 'Roboto Slab', serif;">Login</h1>
-    <form action="" method="post" class="form-group">
-            {{ form.hidden_tag() }}
-        <div class="form-group">
-            {{ form.username.label }}
-            <input id="username" name="username" required type="text" value="" class="form-control w-25">
+<h1 class="font-nav">Login</h1>
+<form action="" method="post" class="form-group">
+    {{ form.hidden_tag() }}
+    <div class="form-group">
+        {{ form.username.label }}
+        <div class="row">
+            <div class="col-md-4">
+                <input id="username" name="username" required type="text" class="form-control mx-0">
+            </div>
         </div>
-        <div class="form-group">
-            {{ form.password.label }}
-            <input id="password" name="password" required type="password" value="" class="form-control w-25">
+    </div>
+    <div class="form-group">
+        {{ form.password.label }}
+        <div class="row">
+            <div class="col-md-4">
+                <input id="password" name="password" required type="password" class="form-control mx-0">
+            </div>
         </div>
-        <div class="custom-control custom-switch">
-            <input id="remember" name="remember" type="checkbox" value="y" class="custom-control-input">
-            <label for="remember" class="custom-control-label">記住我</label>
-        </div>
-        <p style="margin-top:12pt">
-            <input id="submit" name="submit" type="submit" value="登入" class="btn btn-dark">
-        </p>
-        <div style="color: rgb(155, 155, 155);margin-bottom: 10px">忘記密碼無法登入？</div>
-        <p>
-            <a href="{{url_for('auth.reset_send')}}" class="card-link">重置密碼</a>
-        </p>
-      
-    </form>
+    </div>
+    <div class="custom-control custom-switch">
+        <input id="remember" name="remember" type="checkbox" value="y" class="custom-control-input">
+        <label for="remember" class="custom-control-label">記住我</label>
+    </div>
+    <p class="mt-3">
+        <input id="submit" name="submit" type="submit" value="登入" class="btn btn-dark">
+    </p>
+    <div style="color: rgb(155, 155, 155);margin-bottom: 10px">忘記密碼無法登入？</div>
+    <p>
+        <a href="{{url_for('auth.reset_send')}}" class="card-link">重置密碼</a>
+    </p>
+
+</form>
 {% endblock %}
