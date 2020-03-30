@@ -96,28 +96,41 @@
 
 <div class="step">
     <h4>1. 至行天宮圖書館網站之藏館查詢首頁</h4>
-    網址：<a href="http://hylib.ht.org.tw/webpacIndex.jsp" target="_blank">http://hylib.ht.org.tw/webpacIndex.jsp</a>
+    連結：<a href="http://hylib.ht.org.tw/webpacIndex.jsp" target="_blank">館藏查詢首頁</a>
 </div>
 <br>
 <div class="step mb-2">
     <h4>2. 搜尋欲借閱書籍，並進入該書籍資料頁面</h4>
 </div>
 <br>
-<div class="step">
+<div class="step font-nav">
     <h4>3. 複製書籍網址，或截取書籍id</h4>
-    <img src="{{ url_for('static', filename='url.png') }}" width="70%" alt="">
+    <div class="row">
+        <div class="col-md-8 mt-2">
+            <img src="{{ url_for('static', filename='url.png') }}" width="100%" alt="">  
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10 mt-2">
 
-    <div style="color: rgb(155, 155, 155); margin: 10px 0px 0px 0px">
-        藉由搜尋功能進入書籍資料頁面時，網址很可能會帶有其它參數，如：<br>
-        <span
-            style="color:#5ca0d3">http://hylib.ht.org.tw/bookDetail.do?id=192066<strong>&resid=188810387&nowid=1</strong></span><br>
-        這些額外參數並不會造成影響，請直接複製<span style="color:#5ca0d3">整列網址</span>
+            藉由搜尋功能進入書籍資料頁面時，網址很可能會帶有其它參數，如：<br>
+            <code>
+                http://hylib.ht.org.tw/bookDetail.do?id=192066<strong>&resid=188810387&nowid=1</strong><br>
+
+            </code>
+            這些額外參數並不會造成影響，請直接複製整列網址
+        </div>
     </div>
 </div>
 <br>
 <div class="step">
     <h4>4. 至個人頁面新增書目</h4>
-    <img src="{{ url_for('static', filename='add.png') }}" width="70%" alt="">
+    <div class="row">
+        <div class="col-md-8">
+
+            <img src="{{ url_for('static', filename='add.png') }}" width="100%" alt="">
+        </div>
+    </div>
 </div>
 <br>
 <div class="step">
