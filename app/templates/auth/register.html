@@ -4,54 +4,78 @@
 {% block title %}Register{% endblock %}
 
 
-
 {% block page_content %}
 
 
-
-
-<h1 style="font-family: 'Roboto Slab', serif;">Register</h1>
-<div style="color: rgb(155, 155, 155);margin-bottom: 10px;font-family: 'Roboto Slab','微軟正黑體','Microsoft JhengHei',sans-serif">
+<h1 class="font-nav">Register</h1>
+<div class="font-dark">
     <ul>
         <li>信箱為選填(非必要)，可於註冊後新增或修改</li>
         <li>信箱目前主要用途為接收重置密碼確認信件</li>
         <li>所填密碼皆經過HS256演算法加密後才存入資料庫，本站亦無法得知用戶密碼</li>
-        <li>未來會直接採用臉書授權方式註冊登入，惟工程較大，請稍候XD</li>
     </ul>
 </div>
 
-    <form action="" method="post">
-            {{ form.hidden_tag() }}
-        <p>
+<form method="post">
+    {{ form.hidden_tag() }}
+    <div class="row my-3">
+        <div class="col-auto pr-0">
             {{ form.username.label }}
-            <input id="username" name="username" required type="text" value="" class="form-control custom-control-inline form-control-sm w-25">
+        </div>
+        <div class="col-lg-3 col-md-4 col-6 pr-0 pl-2">
+            <input id="username" name="username" required type="text" value=""
+                class="form-control custom-control-inline form-control-sm">
+        </div>
+        <div class="col-auto">
             {% for error in form.username.errors %}
-                <span style="color: red;">[{{ error }}]</span>
+            <span class="font-red">[{{ error }}]</span>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+    </div>
+    <div class="row my-3">
+        <div class="col-auto pr-0">
             {{ form.password.label }}
-            <input id="password" name="password" required type="password" value="" class="form-control custom-control-inline form-control-sm w-25">
+        </div>
+        <div class="col-lg-3 col-md-4 col-6 pr-0 pl-2">
+            <input id="password" name="password" required type="password" value=""
+                class="form-control custom-control-inline form-control-sm">
+        </div>
+        <div class="col-auto">
             {% for error in form.password.errors %}
-                <span style="color: red;">[{{ error }}]</span>
+            <span class="font-red">[{{ error }}]</span>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+    </div>
+    <div class="row my-3">
+        <div class="col-auto pr-0">
             {{ form.password2.label }}
-            <input id="password2" name="password2" required type="password" value="" class="form-control custom-control-inline form-control-sm w-25">
+        </div>
+        <div class="col-lg-3 col-md-4 col-6 pr-0 pl-2">
+            <input id="password2" name="password2" required type="password" value=""
+                class="form-control custom-control-inline form-control-sm">
+        </div>
+        <div class="col-auto">
             {% for error in form.password2.errors %}
-                <span style="color: red;">[{{ error }}]</span>
+            <span class="font-red">[{{ error }}]</span>
             {% endfor %}
-        </p>
-        <p>
+        </div>
+    </div>
+    <div class="row my-3">
+        <div class="col-auto pr-0">
             {{ form.email.label }}
-            <input id="email" name="email" type="text" value="" class="form-control custom-control-inline form-control-sm w-25">
+        </div>
+        <div class="col-lg-3 col-md-4 col-6 pr-0 pl-2">
+            <input id="email" name="email" type="text" value=""
+                class="form-control custom-control-inline form-control-sm">
+        </div>
+        <div class="col-auto">
             {% for error in form.email.errors %}
-                <span style="color: red;">[{{ error }}]</span>
+            <span class="font-red">[{{ error }}]</span>
             {% endfor %}
-        </p>
-        <p>
-            <input id="submit" name="submit" type="submit" value="註冊" class="btn btn-dark">
-        </p>
-    </form>
+        </div>
+    </div>
+    <p>
+        <input id="submit" name="submit" type="submit" value="註冊" class="btn btn-dark">
+    </p>
+</form>
 {% endblock %}
