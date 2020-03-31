@@ -42,7 +42,6 @@
 </head>
 
 <body>
-    {% block navbar %}
     <nav class="navbar navbar-expand-sm navbar-light bg-light">
         <a href="{{ url_for('main.index') }}">
             <img src="{{ url_for('static', filename='seed.png') }}" width="32" height="32"
@@ -112,8 +111,6 @@
             </ul>
         </div>
     </nav>
-
-    {% endblock %}
 
 
     {% block content %}
