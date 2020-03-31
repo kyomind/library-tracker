@@ -13,6 +13,10 @@ body {
     color: rgb(185, 185, 185);
 }
 
+.font-dark {
+    color: rgb(75, 75, 75);
+}
+
 .font-red {
     color: red;
 }
