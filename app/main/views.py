@@ -50,23 +50,9 @@ def user(name):
     join_time = current_user.join_time
     time = join_time + timedelta(hours=8)
     form = AddBookForm()
-    count = 0
-    # 取得個人收藏書數量，使用sqlalchemy core
-    # with engine.connect() as conn:
-    #     # psycopg(heroku)和pymysql(GCP)必須使用%s佔位符
-    #     if mode_key == 'heroku' or mode_key == 'deploy':
-    #         sql_command = 'select COUNT(DISTINCT book_id) as count from books where user_id=%s'
-    #     else:
-    #         sql_command = 'select COUNT(DISTINCT book_id) as count from books where user_id=?'
-    #     result = conn.execute(sql_command, current_user.id)
-    #     for row in result:
-    #         count=row['count']
             
     # 新增書目
     if form.validate_on_submit():
-        if count >= 50:
-            flash(u'新增失敗：收藏數量已達上限50本', 'danger')
-            return redirect(url_for('main.user', name=name))
         # 輸入欄位值檢查
         if form.book_url.data and form.book_id.data:
             flash(u'請擇一輸入', 'danger')

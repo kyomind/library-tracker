@@ -23,7 +23,7 @@ def get_book_id(book_url):
 
 def get_book_name(book_id):
     headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
-        'Accept-Language':'zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4'} 
+        'Accept-Language':'zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4'}
     url ='http://hylib.ht.org.tw/bookDetail.do?id='
     book_page = requests.get(url+book_id, headers=headers)
     book_page_soup = BeautifulSoup(book_page.text, 'html.parser')
@@ -32,7 +32,7 @@ def get_book_name(book_id):
 
 def get_book_table(book_id):
     headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
-        'Accept-Language':'zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4'} 
+        'Accept-Language':'zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4'}
     data = {'id': book_id}
     resp = requests.post(
     'http://hylib.ht.org.tw/maintain/HoldListForBookDetailAjax.do',
@@ -89,21 +89,20 @@ def update_book_data(book_id):
         books.append(book_dict)
 
     conn = engine.connect()
-    if mode_key == 'heroku':
-        sql_command = 'UPDATE books SET status=%s, reservation=%s, \
-        update_time=%s WHERE book_id=%s AND copy=%s'
+    if mode_key in ('heroku', 'deploy'):
+        sql_command = """UPDATE books SET status=%s, reservation=%s,
+        update_time=%s WHERE book_id=%s AND copy=%s"""
     else:
-        sql_command = 'UPDATE books SET status=?, reservation=?, \
-        update_time=? WHERE book_id=? AND copy=?'
+        sql_command = """UPDATE books SET status=?, reservation=?,
+        update_time=? WHERE book_id=? AND copy=?"""
 
-    # 使用SQLite時，同時寫入常常lock，故設計寫入失敗時延時寫入
     # 每一本書最多嘗試寫入6次，嘗試間隔從20秒起依次數增加至40秒
     interval = 20
     for book in books:
         while True:
             try:
-                conn.execute(sql_command, book['status'], 
-                book['reservation'], datetime.utcnow(), 
+                conn.execute(sql_command, book['status'],
+                book['reservation'], datetime.utcnow(),
                 book_id,book['copy'])
             except BaseException as err:
                 print(err)
@@ -115,7 +114,7 @@ def update_book_data(book_id):
             else:
                 break
     conn.close()
-    
+
 
 if __name__ == "__main__":
     book_id_list = get_update_list_from_db()
