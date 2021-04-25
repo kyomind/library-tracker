@@ -104,4 +104,4 @@ def user(name):
             db.session.commit()
         flash(u'新增成功！書名：{}'.format(book[0]), 'success')
         return redirect(url_for('main.user', name=name))
-    return render_template('user.html', name=name, time=time, form=form, count=count)
+    return render_template('user.html', name=name, time=time, form=form)
