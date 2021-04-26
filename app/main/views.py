@@ -6,27 +6,30 @@ from flask_login import current_user, login_required
 from app import db
 from app.main import main
 from app.main.forms import AddBookForm, DeleteBookForm
-from app.models import User,Book
-from crawler import get_book_id, get_book_data, engine, mode_key
+from app.models import User, Book
+from crawler import get_book_id, get_book_data, ENGINE, MODE_ENV_KEY
 
 
-# 首頁/追縱清單
 @main.route('/', methods=['GET', 'POST'])
 def index():
+    """[未登入用戶首頁/已登入用戶追縱清單]
+    """
     if current_user.is_authenticated:
-        delta = timedelta(hours=8) # 用於模版調整時間為UTC+8
+        delta = timedelta(hours=8)  # 用於模版調整時間為UTC+8
         form = DeleteBookForm()
+
         # 目前使用者的所有藏書
         books = Book.query.filter_by(this_user=current_user).all()
         if len(books) == 0:
-            return render_template('index.html',books=books)   
-        # 顯示追縱書籍數量編號，同一本書不管有幾本館藏，編號上只能算一本(迂迴做法)
+            return render_template('index.html',books=books)
+
+        # 顯示追縱書籍數量編號，同一本書不管有幾本館藏，編號上只能算一本
         number = 0
         numbers = []
         for book in books:
             if book.copy == '1':
                 number = number + 1
-            numbers.append(number)        
+            numbers.append(number)
         numbered_books = tuple(zip(numbers, books))
         # 刪除書目(一本書可能有複數本館藏，在清單上有複數列)
         if form.validate_on_submit():
@@ -43,14 +46,18 @@ def index():
     return render_template('index.html')
 
 
-# 個人頁/新增書目
 @main.route('/user/<name>', methods=['GET', 'POST'])
 @login_required
 def user(name):
+    """[個人頁/新增書目]
+
+    Args:
+        name ([str]): [用戶名]
+    """
     join_time = current_user.join_time
     time = join_time + timedelta(hours=8)
     form = AddBookForm()
-            
+
     # 新增書目
     if form.validate_on_submit():
         # 輸入欄位值檢查

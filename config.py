@@ -68,5 +68,4 @@ mode = {
     'test': TestConfig,
     'deploy': DeployConfig,
     'heroku': HerokuConfig,
-    # 'docker': DockerConfig,
 }
