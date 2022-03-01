@@ -49,17 +49,6 @@ typed-ast = {version = ">=1.3.0", markers = "implementation_name == \"cpython\""
 wrapt = "*"
 
 [[package]]
-name = "autopep8"
-version = "1.4.3"
-description = "A tool that automatically formats Python code to conform to the PEP 8 style guide"
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-pycodestyle = ">=2.4.0"
-
-[[package]]
 name = "beautifulsoup4"
 version = "4.7.1"
 description = "Screen-scraping library"
@@ -459,20 +448,6 @@ flake8 = ["flake8", "flake8-import-order", "pep8-naming"]
 test = ["pytest (>=4.0.1,<5.0.0)", "pytest-cov (>=2.6.0,<3.0.0)", "pytest-runner (>=4.2,<5.0.0)"]
 
 [[package]]
-name = "pylint"
-version = "2.3.1"
-description = "python code static checker"
-category = "main"
-optional = false
-python-versions = ">=3.4.*"
-
-[package.dependencies]
-astroid = ">=2.2.0,<3"
-colorama = {version = "*", markers = "sys_platform == \"win32\""}
-isort = ">=4.2.5,<5"
-mccabe = ">=0.6,<0.7"
-
-[[package]]
 name = "pymysql"
 version = "0.9.2"
 description = "Pure Python MySQL Driver"
@@ -720,7 +695,7 @@ python-versions = "*"
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.7"
-content-hash = "5caa4201420cd6254669de81a57ef7f4a9b2514049a44c13c6ac5f7b22dbc747"
+content-hash = "32e5ffa59fc2e37bf6f1fd775ef28b5e4a84b6d66287e5bf72e496a63fbaa155"
 
 [metadata.files]
 alembic = [
@@ -737,9 +712,6 @@ asn1crypto = [
 astroid = [
     {file = "astroid-2.2.5-py3-none-any.whl", hash = "sha256:b65db1bbaac9f9f4d190199bb8680af6f6f84fd3769a5ea883df8a91fe68b4c4"},
     {file = "astroid-2.2.5.tar.gz", hash = "sha256:6560e1e1749f68c64a4b5dee4e091fce798d2f0d84ebe638cf0e0585a343acf4"},
-]
-autopep8 = [
-    {file = "autopep8-1.4.3.tar.gz", hash = "sha256:33d2b5325b7e1afb4240814fe982eea3a92ebea712869bfd08b3c0393404248c"},
 ]
 beautifulsoup4 = [
     {file = "beautifulsoup4-4.7.1-py2-none-any.whl", hash = "sha256:ba6d5c59906a85ac23dadfe5c88deaf3e179ef565f4898671253e50a78680718"},
@@ -1025,10 +997,6 @@ pycparser = [
 pyjwt = [
     {file = "PyJWT-1.7.1-py2.py3-none-any.whl", hash = "sha256:5c6eca3c2940464d106b99ba83b00c6add741c9becaec087fb7ccdefea71350e"},
     {file = "PyJWT-1.7.1.tar.gz", hash = "sha256:8d59a976fb773f3e6a39c85636357c4f0e242707394cadadd9814f5cbaa20e96"},
-]
-pylint = [
-    {file = "pylint-2.3.1-py3-none-any.whl", hash = "sha256:5d77031694a5fb97ea95e828c8d10fc770a1df6eb3906067aaed42201a8a6a09"},
-    {file = "pylint-2.3.1.tar.gz", hash = "sha256:723e3db49555abaf9bf79dc474c6b9e2935ad82230b10c1138a71ea41ac0fff1"},
 ]
 pymysql = [
     {file = "PyMySQL-0.9.2-py2.py3-none-any.whl", hash = "sha256:95f057328357e0e13a30e67857a8c694878b0175797a9a203ee7adbfb9b1ec5f"},
