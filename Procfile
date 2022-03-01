@@ -1,1 +1,0 @@
-web: gunicorn tracker:app

@@ -1,3 +1,0 @@
--r common.txt
-psycopg2-binary==2.8.1
-Flask-SSLify==0.1.5
