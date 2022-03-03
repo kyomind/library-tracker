@@ -10,7 +10,6 @@ from sqlalchemy import create_engine
 
 from config import mode
 
-
 MODE_ENV_KEY = os.getenv('FLASK_CONFIG') or 'deploy'
 DB_URL = mode[MODE_ENV_KEY].SQLALCHEMY_DATABASE_URI
 ENGINE = create_engine(DB_URL)

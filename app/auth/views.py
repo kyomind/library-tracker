@@ -1,9 +1,10 @@
-from flask import render_template, redirect,url_for, request,session,flash
-from flask_login import login_user, login_required,logout_user, current_user
+from flask import flash, redirect, render_template, request, session, url_for
+from flask_login import current_user, login_required, login_user, logout_user
+
 from app import db
 from app.auth import auth
-from app.auth.forms import LoginForm, RegisterForm, ChangePasswordForm, \
-    EditEmailForm, RequestResetForm, ResetPasswordForm
+from app.auth.forms import (ChangePasswordForm, EditEmailForm, LoginForm, RegisterForm,
+                            RequestResetForm, ResetPasswordForm)
 from app.email import send_email
 from app.models import User
 
@@ -79,7 +80,7 @@ def change():
     return render_template('auth/change.html', form=form)
 
 
-@auth.route('/edit', methods=['GET','POST'])
+@auth.route('/edit', methods=['GET', 'POST'])
 @login_required
 def edit():
     """[新增、修改信箱頁面]
@@ -112,8 +113,7 @@ def reset_send():
         user = User.query.filter_by(email=form.email.data).first()
         token = user.get_jwt(600)
         url = url_for('auth.reset', _external=True, token=token)
-        send_email('重置密碼確認信', user.email, 'mail/reset',
-                   name=user.username, url=url)
+        send_email('重置密碼確認信', user.email, 'mail/reset', name=user.username, url=url)
         flash(u'信件已寄出，請至信箱確認', 'success')
         return redirect(url_for('auth.login'))
     return render_template('auth/reset_send.html', form=form)
@@ -167,8 +167,7 @@ def confirm_sent():
         return redirect(url_for('main.user', name=current_user.username))
     token = current_user.get_jwt(600)
     url = url_for('auth.confirmed', _external=True, token=token)
-    send_email('信箱驗證', current_user.email, 'mail/confirm',
-               name=current_user.username, url=url)
+    send_email('信箱驗證', current_user.email, 'mail/confirm', name=current_user.username, url=url)
     return render_template('auth/confirm_sent.html', email=current_user.email)
 
 

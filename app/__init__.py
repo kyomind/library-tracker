@@ -5,7 +5,6 @@ from flask_migrate import Migrate
 from flask_mail import Mail
 from config import mode
 
-
 db = SQLAlchemy()
 mylogin = LoginManager()
 migrate = Migrate()
@@ -31,5 +30,5 @@ def create_app(mode_key):
     if app.config['SSL_REDIRECT']:
         from flask_sslify import SSLify
         sslify = SSLify(app)
-    
+
     return app

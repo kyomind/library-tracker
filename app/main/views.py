@@ -1,13 +1,13 @@
 from datetime import timedelta
 
-from flask import render_template, redirect, url_for, flash
+from flask import flash, redirect, render_template, url_for
 from flask_login import current_user, login_required
 
 from app import db
 from app.main import main
 from app.main.forms import AddBookForm, DeleteBookForm
-from app.models import User, Book
-from crawler import get_book_id, get_book_data, ENGINE, MODE_ENV_KEY
+from app.models import Book, User
+from crawler import ENGINE, MODE_ENV_KEY, get_book_data, get_book_id
 
 
 @main.route('/', methods=['GET', 'POST'])
@@ -21,7 +21,7 @@ def index():
         # 目前使用者的所有藏書
         books = Book.query.filter_by(this_user=current_user).all()
         if len(books) == 0:
-            return render_template('index.html',books=books)
+            return render_template('index.html', books=books)
 
         # 顯示追縱書籍數量編號，同一本書不管有幾本館藏，編號上只能算一本
         number = 0
@@ -33,9 +33,8 @@ def index():
         numbered_books = tuple(zip(numbers, books))
         # 刪除書目(一本書可能有複數本館藏，在清單上有複數列)
         if form.validate_on_submit():
-            delete_books = Book.query.filter_by(
-                book_id=form.book_id.data,
-                user_id=current_user.id).all()
+            delete_books = Book.query.filter_by(book_id=form.book_id.data,
+                                                user_id=current_user.id).all()
             for book in delete_books:
                 db.session.delete(book)
                 db.session.commit()
@@ -79,18 +78,24 @@ def user(name):
             # 遍歷查詢每一本是否為目前使用者持有
             for book in same_books:
                 if book.user_id == current_user.id:
-                    flash(u'新增失敗：你已收藏本書','danger')
-                    return redirect(url_for('main.user',name=name))
+                    flash(u'新增失敗：你已收藏本書', 'danger')
+                    return redirect(url_for('main.user', name=name))
                 # 記錄最後一列的持有者id，將複製此份圖書資料
                 last_user_id = book.user_id
             # 從資料庫複製已有的圖書資料
             copy_books = Book.query.filter_by(book_id=book_id, user_id=last_user_id).all()
             for book in copy_books:
-                data = Book(book_name=book.book_name, book_id=book.book_id,
-                    copy=book.copy, barcode_id=book.barcode_id, location=book.location,
-                    call_number=book.call_number, data_type=book.data_type,
-                    status=book.status, reservation=book.reservation,
-                    user_id=current_user.id, update_time=book.update_time)
+                data = Book(book_name=book.book_name,
+                            book_id=book.book_id,
+                            copy=book.copy,
+                            barcode_id=book.barcode_id,
+                            location=book.location,
+                            call_number=book.call_number,
+                            data_type=book.data_type,
+                            status=book.status,
+                            reservation=book.reservation,
+                            user_id=current_user.id,
+                            update_time=book.update_time)
                 db.session.add(data)
                 db.session.commit()
             flash(u'新增成功！書名：{}'.format(book.book_name), 'success')
@@ -103,10 +108,16 @@ def user(name):
             flash(u'新增失敗：查無此id之書籍', 'danger')
             return redirect(url_for('main.user', name=name))
         for book in books:
-            data = Book(book_name=book[0], book_id=book[1],
-                copy=book[2], barcode_id=book[3], location=book[4],
-                call_number=book[5], data_type=book[6], status=book[7],
-                reservation=book[8], user_id=current_user.id)
+            data = Book(book_name=book[0],
+                        book_id=book[1],
+                        copy=book[2],
+                        barcode_id=book[3],
+                        location=book[4],
+                        call_number=book[5],
+                        data_type=book[6],
+                        status=book[7],
+                        reservation=book[8],
+                        user_id=current_user.id)
             db.session.add(data)
             db.session.commit()
         flash(u'新增成功！書名：{}'.format(book[0]), 'success')
