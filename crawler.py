@@ -15,7 +15,8 @@ DB_URL = mode[MODE_ENV_KEY].SQLALCHEMY_DATABASE_URI
 ENGINE = create_engine(DB_URL)
 HEADERS = {
     'User-Agent':
-    'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36',
+    '''Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko)
+    Chrome/60.0.3112.90 Safari/537.36''',
     'Accept-Language': 'zh-TW,zh;q=0.8,en-US;q=0.6,en;q=0.4'
 }
 
@@ -43,8 +44,8 @@ def get_book_name(book_id):
     Returns:
         [str]: [書名字串]
     """
-    url ='http://hylib.ht.org.tw/bookDetail.do?id='
-    book_page = requests.get(url+book_id, headers=HEADERS)
+    url = 'http://hylib.ht.org.tw/bookDetail.do?id='
+    book_page = requests.get(url + book_id, headers=HEADERS)
     book_page_soup = BeautifulSoup(book_page.text, 'html.parser')
     book_name = book_page_soup.find('h3').text
     return book_name
@@ -60,9 +61,9 @@ def get_book_table(book_id):
         [str]: [書籍資料html原始碼字串]
     """
     data = {'id': book_id}
-    resp = requests.post(
-    'http://hylib.ht.org.tw/maintain/HoldListForBookDetailAjax.do',
-    headers=HEADERS, data=data)
+    resp = requests.post('http://hylib.ht.org.tw/maintain/HoldListForBookDetailAjax.do',
+                         headers=HEADERS,
+                         data=data)
     soup = BeautifulSoup(resp.text, 'html.parser')
     table = soup.find('table', 'order')
     return table
@@ -107,7 +108,7 @@ def get_update_list_from_db():
     """
     with ENGINE.connect() as conn:
         book_ids = conn.execute('select DISTINCT book_id as id from books')
-        book_id_list = [ book['id'] for book in book_ids ]
+        book_id_list = [book['id'] for book in book_ids]
     return book_id_list
 
 
@@ -123,8 +124,7 @@ def update_book_data(book_id):
         book_dict = {}
         book = []
         book_key = [
-            'copy', 'barcode_id', 'location', 'call_number',
-            'data_type', 'status', 'reservation'
+            'copy', 'barcode_id', 'location', 'call_number', 'data_type', 'status', 'reservation'
         ]
         for td in tr.find_all('td'):
             if td.text == '':
@@ -153,8 +153,8 @@ def update_book_data(book_id):
     for book in books:
         while True:
             try:
-                conn.execute(sql_command, book['status'], book['reservation'],
-                             datetime.utcnow(), book_id, book['copy'])
+                conn.execute(sql_command, book['status'], book['reservation'], datetime.utcnow(),
+                             book_id, book['copy'])
             except Exception as err:
                 time.sleep(interval)
                 interval = interval + 4

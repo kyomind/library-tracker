@@ -39,7 +39,8 @@ class TestConfig(Config):
 
 
 class DeployConfig(Config):
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'data.db')
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(
+        basedir, 'data.db')
 
 
 class HerokuConfig(DeployConfig):
@@ -60,6 +61,7 @@ class HerokuConfig(DeployConfig):
         # 處理反向代理伺服器的標頭
         from werkzeug.contrib.fixers import ProxyFix
         app.wsgi_app = ProxyFix(app.wsgi_app)
+
 
 mode = {
     'dev': DevConfig,
